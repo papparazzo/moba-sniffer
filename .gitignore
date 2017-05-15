@@ -65,7 +65,7 @@ Makefile.in
 /configure.scan
 /autoscan.log
 /response.log
-/src/moba-systemmanager
+/src/moba-sniffer
 /src/.deps/
 /core
 
