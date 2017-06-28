@@ -1,5 +1,5 @@
 /*
- *  Project:    moba-systemmanager
+ *  Project:    moba-sniffer
  *
  *  Copyright (C) 2016 Stefan Paproth <pappi-@gmx.de>
  *

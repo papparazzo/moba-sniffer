@@ -1,5 +1,5 @@
 /*
- *  Project:    moba-systemmanager
+ *  Project:    moba-sniffer
  *
  *  Copyright (C) 2016 Stefan Paproth <pappi-@gmx.de>
  *
@@ -21,7 +21,7 @@
 
 class CS2Connector {
     public:
-        //CS2Connector();
+        CS2Connector();
         //CS2Connector(const CS2Connector& orig);
         //virtual ~CS2Connector();
     private:

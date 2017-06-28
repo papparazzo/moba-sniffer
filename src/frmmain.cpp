@@ -1,5 +1,5 @@
 /*
- *  Project:    moba-systemmanager
+ *  Project:    moba-sniffer
  *
  *  Copyright (C) 2016 Stefan Paproth <pappi-@gmx.de>
  *
@@ -30,7 +30,7 @@
 
 namespace {
     const char license[] =
-        "Project:    moba-systemmanager\n"
+        "Project:    moba-sniffer\n"
         "\n"
         "Copyright (C) 2016 Stefan Paproth <pappi-@gmx.de>\n"
         "\n"
