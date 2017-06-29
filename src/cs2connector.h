@@ -45,7 +45,12 @@ class CS2ConnectorException : public std::exception {
 class CS2Connector : private boost::noncopyable {
     public:
         struct MsgData {
-
+            char prio;       // 2 + 2 Bits
+            char cmd;        // 1 Byte
+            bool response;   // 1 Bit
+            char hash[2];    // 2 Bytes
+            char dlc;        // 4 Bit
+            char data[8];
         };
 
         CS2Connector();
@@ -60,4 +65,7 @@ class CS2Connector : private boost::noncopyable {
         static const int BUFFER_SIZE = 512;
         int socket;
 };
+
+
+
 
