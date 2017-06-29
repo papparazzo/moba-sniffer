@@ -19,12 +19,45 @@
  */
 #pragma once
 
-class CS2Connector {
-    public:
-        CS2Connector();
-        //CS2Connector(const CS2Connector& orig);
-        //virtual ~CS2Connector();
-    private:
+#include <boost/noncopyable.hpp>
+#include <string>
+#include <exception>
 
+class CS2ConnectorException : public std::exception {
+
+    public:
+        virtual ~CS2ConnectorException() throw() {
+        }
+
+        CS2ConnectorException(const std::string &what) {
+            what__ = what;
+        }
+
+        virtual const char* what() const throw() {
+            return what__.c_str();
+        }
+
+    private:
+        std::string what__;
+};
+
+
+class CS2Connector : private boost::noncopyable {
+    public:
+        struct MsgData {
+
+        };
+
+        CS2Connector();
+        virtual ~CS2Connector();
+
+        void connect();
+        MsgData recieveData();
+        void sendData(const MsgData &data);
+
+    protected:
+        static const int PORT        = 15730;
+        static const int BUFFER_SIZE = 512;
+        int socket;
 };
 

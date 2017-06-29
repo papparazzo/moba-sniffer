@@ -19,6 +19,22 @@
  */
 
 #include "cs2connector.h"
+#include <moba/helper.h>
+
+
+int main(int argc, char *argv[]) {
+    moba::setCoreFileSizeToULimit();
+
+    CS2Connector cs2;
+
+    cs2.connect();
+    while(1) {
+        cs2.recieveData();
+    }
+    
+}
+
+
 
 
 /*
@@ -26,13 +42,11 @@
 
 #include <gtkmm/application.h>
 
-#include <moba/helper.h>
+
 
 #include "frmmain.h"
 #include "config.h"
 
-int main(int argc, char *argv[]) {
-    moba::setCoreFileSizeToULimit();
 
     auto app = Gtk::Application::create(argc, argv, "org.moba.sniffer");
 
