@@ -99,24 +99,107 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     if((recv_len = ::recvfrom(socket, (void*)&can, sizeof(can), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
         throw CS2ConnectorException("recv from returned -1");
     }
-
-    std::cerr << GetCmd(can) << std::endl;
-
+    MsgData mi;
     switch(GetCmd(can)) {
+        case CMD_SYSTEM       :
+            std::cerr << "CMD_SYSTEM      " ;
+            break;
 
-case CMD_SYSTEM       : std::cerr << "CMD_SYSTEM      " << std::endl;break;
-case CMD_LOKDISCOVERY : std::cerr << "CMD_LOKDISCOVERY" << std::endl;break;
-case CMD_CDBGLEISREP  : std::cerr << "CMD_CDBGLEISREP " << std::endl;break;
-case CMD_MFX_BIND     : std::cerr << "CMD_MFX_BIND    " << std::endl;break;
-case CMD_MFX_VERIFY   : std::cerr << "CMD_MFX_VERIFY  " << std::endl;break;
-case CMD_LOK_SPEED    : std::cerr << "CMD_LOK_SPEED   " << std::endl;break;
-case CMD_LOK_DIR      : std::cerr << "CMD_LOK_DIR     " << std::endl;break;
-case CMD_LOK_FUNCTION : std::cerr << "CMD_LOK_FUNCTION" << std::endl;break;
-case CMD_READ_CONFIG  : std::cerr << "CMD_READ_CONFIG " << std::endl;break;
-case CMD_WRITE_CONFIG : std::cerr << "CMD_WRITE_CONFIG" << std::endl;break;
-case CMD_SET_SWITCH   : std::cerr << "CMD_SET_SWITCH  " << std::endl;break;
-case CMD_S88_POLLING  : std::cerr << "CMD_S88_POLLING " << std::endl;break;
-}
+        case CMD_LOKDISCOVERY :
+            std::cerr << "CMD_LOKDISCOVERY" ;
+            break;
+
+        case CMD_CDBGLEISREP  :
+            std::cerr << "CMD_CDBGLEISREP " ;
+            break;
+
+        case CMD_MFX_BIND     :
+            std::cerr << "CMD_MFX_BIND    " ;
+            break;
+
+        case CMD_MFX_VERIFY   :
+            std::cerr << "CMD_MFX_VERIFY  " ;
+            break;
+
+        case CMD_LOK_SPEED    :
+            std::cerr << "CMD_LOK_SPEED   " ;
+            break;
+
+        case CMD_LOK_DIR      :
+            std::cerr << "CMD_LOK_DIR     " ;
+            break;
+
+        case CMD_LOK_FUNCTION :
+            std::cerr << "CMD_LOK_FUNCTION" ;
+            break;
+
+        case CMD_READ_CONFIG  :
+            std::cerr << "CMD_READ_CONFIG " ;
+            break;
+
+        case CMD_WRITE_CONFIG :
+            std::cerr << "CMD_WRITE_CONFIG" ;
+            break;
+
+        case CMD_SET_SWITCH   :
+            std::cerr << "CMD_SET_SWITCH  " ;
+            break;
+
+        case CMD_S88_POLLING  :
+            std::cerr << "CMD_S88_POLLING " ;
+            break;
+
+        default:
+            std::cerr << "UNBEKANNT " ;
+            break;
+    }
+
+    std::cerr << GetCmd(can) << " : (" << (int)can.Header[1] <<  ")" << std::endl;
+
+
+    std::cerr << std::uppercase;
+    std::bitset<8> x(can.Header[0]);
+    std::cerr << x << " ";
+
+    std::bitset<8> y(can.Header[1]);
+    std::cerr << y << " ";
+
+    std::bitset<8> z(can.Hash[0]);
+    std::cerr << z << " ";
+
+    std::bitset<8> a(can.Hash[1]);
+    std::cerr << a << " ";
+
+    std::bitset<8> b(can.Length);
+    std::cerr << b << " - ";
+
+    std::bitset<8> t(can.Data[0]);
+    std::cerr << t << " ";
+
+
+    std::cerr << std::endl;
+
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Header[0]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Header[1]) << " ";
+
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Hash[0]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Hash[1]) << " ";
+
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Length) << " - ";
+
+    for(int j = 0; j < 4; ++j) {
+        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(can.UID[j]) << " ";
+    }
+
+
+    for(int j = 0; j < 4; ++j) {
+        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(can.Data[j]) << " ";
+    }
+
+
+    std::cerr << std::endl;
+    std::cerr << "---------------------------------------------------------------";
+    std::cerr << std::endl;
 
 
 
@@ -129,12 +212,8 @@ case CMD_S88_POLLING  : std::cerr << "CMD_S88_POLLING " << std::endl;break;
 
 
 
-    std::cerr << std::uppercase;
 
-    for(int i = 0; i < recv_len; ++i) {
-        std::bitset<8> x(buf[i]);
-        std::cerr << x << " ";
-    }
+
     std::cerr << std::endl;
 
     for(int j = 0; j < recv_len; ++j) {
