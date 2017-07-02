@@ -45,12 +45,12 @@ class CS2Connector : private boost::noncopyable {
     public:
         enum CanCommand {
             CMD_SYSTEM                                  = 0x00,
-            CMD_LOK_DISCOVERY                           = 0x02,
+            CMD_LOCO_DISCOVERY                          = 0x02,
             CMD_MFX_BIND                                = 0x04,
             CMD_MFX_VERIFY                              = 0x06,
-            CMD_LOK_SPEED                               = 0x08,
-            CMD_LOK_DIRECTION                           = 0x0A,
-            CMD_LOK_FUNCTION                            = 0x0C,
+            CMD_LOCO_SPEED                              = 0x08,
+            CMD_LOCO_DIRECTION                          = 0x0A,
+            CMD_LOCO_FUNCTION                           = 0x0C,
             CMD_READ_CONFIG                             = 0x0E,
             CMD_WRITE_CONFIG                            = 0x10,
             CMD_SET_SWITCH                              = 0x16,
@@ -67,6 +67,24 @@ class CS2Connector : private boost::noncopyable {
             CMD_CONFIG_DATA_QUERY                       = 0x40,
             CMD_CONFIG_DATA_STREAM                      = 0x42,
             CMD_60128_CONNECT_6021_DATA_STREAM          = 0x44,
+        };
+
+        enum SystemSubCommand {
+            SYS_SUB_CMD_SYSTEM_STOP                        = 0x00,
+            SYS_SUB_CMD_SYSTEM_Go                          = 0x01,
+            SYS_SUB_CMD_SSYSTEM_HALT                       = 0x02,
+            SYS_SUB_CMD_LOCO_EMERGENCY_STOP                = 0x03,
+            SYS_SUB_CMD_LOCO_CYCLE_STOP                    = 0x04,
+//            SYS_SUB_CMD_Lok Datenprotokoll                 = 0x05,
+//            SYS_SUB_CMD_Schaltzeit Zubehördecoder          = 0x06,
+//            SYS_SUB_CMD_Fast Read für mfx                  = 0x07,
+//            SYS_SUB_CMD_Gleisprotokoll frei schalten       = 0x08,
+//            SYS_SUB_CMD_System MFX Neuanmeldezähler setzen = 0x09,
+//            SYS_SUB_CMD_System Überlast                    = 0x0A,
+//            SYS_SUB_CMD_System Status                      = 0x0B,
+//            SYS_SUB_CMD_System Kennung                     = 0x0C,
+//            SYS_SUB_CMD_Mfx Seek                           = 0x30,
+//            SYS_SUB_CMD_System Reset                       = 0x80,
         };
 
         struct RawCanData {

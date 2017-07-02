@@ -76,7 +76,6 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     MsgData mi;
 
 
-
     std::cerr << getCommmandAsString(raw.header[1]) << std::endl;
 
 
@@ -154,8 +153,8 @@ std::string CS2Connector::getCommmandAsString(int cmd) {
         case CMD_SYSTEM:
             return "CMD_SYSTEM";
 
-        case CMD_LOK_DISCOVERY:
-            return "CMD_LOK_DISCOVERY";
+        case CMD_LOCO_DISCOVERY:
+            return "CMD_LOCO_DISCOVERY";
 
         case CMD_MFX_BIND:
             return "CMD_MFX_BIND";
@@ -163,14 +162,14 @@ std::string CS2Connector::getCommmandAsString(int cmd) {
         case CMD_MFX_VERIFY:
             return "CMD_MFX_VERIFY";
 
-        case CMD_LOK_SPEED:
-            return "CMD_LOK_SPEED";
+        case CMD_LOCO_SPEED:
+            return "CMD_LOCO_SPEED";
 
-        case CMD_LOK_DIRECTION:
-            return "CMD_LOK_DIRECTION";
+        case CMD_LOCO_DIRECTION:
+            return "CMD_LOCO_DIRECTION";
 
-        case CMD_LOK_FUNCTION:
-            return "CMD_LOK_FUNCTION";
+        case CMD_LOCO_FUNCTION:
+            return "CMD_LOCO_FUNCTION";
 
         case CMD_READ_CONFIG:
             return "CMD_READ_CONFIG";
