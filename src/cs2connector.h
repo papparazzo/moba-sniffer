@@ -41,12 +41,45 @@ class CS2ConnectorException : public std::exception {
         std::string what__;
 };
 
-
 class CS2Connector : private boost::noncopyable {
     public:
+        enum CanCommand {
+            CMD_SYSTEM                                  = 0x00,
+            CMD_LOK_DISCOVERY                           = 0x02,
+            CMD_MFX_BIND                                = 0x04,
+            CMD_MFX_VERIFY                              = 0x06,
+            CMD_LOK_SPEED                               = 0x08,
+            CMD_LOK_DIRECTION                           = 0x0A,
+            CMD_LOK_FUNCTION                            = 0x0C,
+            CMD_READ_CONFIG                             = 0x0E,
+            CMD_WRITE_CONFIG                            = 0x10,
+            CMD_SET_SWITCH                              = 0x16,
+            CMD_ATTACHMENTS_CONFIG                      = 0x18,
+            CMD_S88_POLLING                             = 0x20,
+            CMD_S88_EVENT                               = 0x22,
+            CMD_SX1_EVENT                               = 0x24,
+            CMD_PING                                    = 0x30,
+            CMD_UPDATE_OFFER                            = 0x32,
+            CMD_READ_CONFIG_DATA                        = 0x34,
+            CMD_BOOTLOADER_CAN                          = 0x36,
+            CMD_BOOTLOADER_TRACK                        = 0x38,
+            CMD_STATUS_DATA_CONFIGURATION               = 0x3A,
+            CMD_CONFIG_DATA_Query                       = 0x40,
+            CMD_CONFIG_DATA_STREAM                      = 0x42,
+            CMD_60128_CONNECT_6021_DATA_STREAM          = 0x44,
+        };
+
+        struct RawCanData {
+            unsigned char header[2];
+            unsigned char hash[2];
+            unsigned char length;
+            unsigned char uid[4];
+            unsigned char data[4];
+        };
+
         struct MsgData {
             char prio;       // 2 + 2 Bits
-            char cmd;        // 1 Byte
+            CanCommand cmd;        // 1 Byte
             bool response;   // 1 Bit
             char hash[2];    // 2 Bytes
             char dlc;        // 4 Bit
@@ -59,6 +92,8 @@ class CS2Connector : private boost::noncopyable {
         void connect();
         MsgData recieveData();
         void sendData(const MsgData &data);
+
+        std::string getCommmandAsString(CanCommand cmd);
 
     protected:
         static const int PORT        = 15730;

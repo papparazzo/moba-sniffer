@@ -62,99 +62,22 @@ void CS2Connector::sendData(const MsgData& data) {
 
 }
 
-#define GetCmd(a) (((a.Header[0] << 8 ) + a.Header[1]) & 0x01FF)
-#define CMD_SYSTEM 0x0000
-#define CMD_LOKDISCOVERY 0x0002
-#define CMD_CDBGLEISREP 0x0202
-#define CMD_MFX_BIND 0x0004
-#define CMD_MFX_VERIFY 0x0006
-#define CMD_LOK_SPEED 0x0008
-#define CMD_LOK_DIR 0x000A
-#define CMD_LOK_FUNCTION 0x000C
-#define CMD_READ_CONFIG 0x000E
-#define CMD_WRITE_CONFIG 0x0010
-#define CMD_SET_SWITCH 0x0016
-#define CMD_S88_POLLING 0x0020
-
-
-
 CS2Connector::MsgData CS2Connector::recieveData() {
     struct sockaddr_in si_other;
     socklen_t slen = sizeof(si_other);
 
-
-    typedef struct {
-        unsigned char Header[2];
-        unsigned char Hash[2];
-        unsigned char Length;
-        unsigned char UID[4];
-        unsigned char Data[4];
-    } TCan;
-
-    TCan can;
+    RawCanData raw;
     int recv_len;
+    memset((void*)&raw, '\0', sizeof(can));
 
-    memset((void*)&can, '\0', sizeof(can));
-
-    if((recv_len = ::recvfrom(socket, (void*)&can, sizeof(can), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
+    if((recv_len = ::recvfrom(socket, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
         throw CS2ConnectorException("recv from returned -1");
     }
     MsgData mi;
-    switch(GetCmd(can)) {
-        case CMD_SYSTEM       :
-            std::cerr << "CMD_SYSTEM      " ;
-            break;
 
-        case CMD_LOKDISCOVERY :
-            std::cerr << "CMD_LOKDISCOVERY" ;
-            break;
 
-        case CMD_CDBGLEISREP  :
-            std::cerr << "CMD_CDBGLEISREP " ;
-            break;
 
-        case CMD_MFX_BIND     :
-            std::cerr << "CMD_MFX_BIND    " ;
-            break;
-
-        case CMD_MFX_VERIFY   :
-            std::cerr << "CMD_MFX_VERIFY  " ;
-            break;
-
-        case CMD_LOK_SPEED    :
-            std::cerr << "CMD_LOK_SPEED   " ;
-            break;
-
-        case CMD_LOK_DIR      :
-            std::cerr << "CMD_LOK_DIR     " ;
-            break;
-
-        case CMD_LOK_FUNCTION :
-            std::cerr << "CMD_LOK_FUNCTION" ;
-            break;
-
-        case CMD_READ_CONFIG  :
-            std::cerr << "CMD_READ_CONFIG " ;
-            break;
-
-        case CMD_WRITE_CONFIG :
-            std::cerr << "CMD_WRITE_CONFIG" ;
-            break;
-
-        case CMD_SET_SWITCH   :
-            std::cerr << "CMD_SET_SWITCH  " ;
-            break;
-
-        case CMD_S88_POLLING  :
-            std::cerr << "CMD_S88_POLLING " ;
-            break;
-
-        default:
-            std::cerr << "UNBEKANNT " ;
-            break;
-    }
-
-    std::cerr << GetCmd(can) << " : (" << (int)can.Header[1] <<  ")" << std::endl;
+    std::cerr << (int)can.Header[1] << std::endl;
 
 
     std::cerr << std::uppercase;
@@ -276,23 +199,10 @@ CS2Connector::MsgData CS2Connector::recieveData() {
 
 #define ANSWERBIT 0x01
 
-#define CMD_SYSTEM 0x0000
-#define CMD_LOKDISCOVERY 0x0002
-#define CMD_CDBGLEISREP 0x0202
-#define CMD_MFX_BIND 0x0004
-#define CMD_MFX_VERIFY 0x0006
-#define CMD_LOK_SPEED 0x0008
-#define CMD_LOK_DIR 0x000A
-#define CMD_LOK_FUNCTION 0x000C
-#define CMD_READ_CONFIG 0x000E
-#define CMD_WRITE_CONFIG 0x0010
-#define CMD_SET_SWITCH 0x0016
-#define CMD_S88_POLLING 0x0020
 
 
 #define Clear(a) {memset(&a, 0, sizeof(a));};
 #define SetCmd(a, b) {a.Header[0] = (b >> 8 ); a.Header[1] = (b & 0x00FF);}
-#define GetCmd(a) (((a.Header[0] << 8 ) + a.Header[1]) & 0x01FF)
 #define GetHash(a) ((a.Hash[0] << 8 ) + a.Hash[1])
 #define Hash(a) {a.Hash[0] = 0x03; a.Hash[1] = 0x00;}
 
