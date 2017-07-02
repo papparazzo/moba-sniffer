@@ -64,7 +64,7 @@ class CS2Connector : private boost::noncopyable {
             CMD_BOOTLOADER_CAN                          = 0x36,
             CMD_BOOTLOADER_TRACK                        = 0x38,
             CMD_STATUS_DATA_CONFIGURATION               = 0x3A,
-            CMD_CONFIG_DATA_Query                       = 0x40,
+            CMD_CONFIG_DATA_QUERY                       = 0x40,
             CMD_CONFIG_DATA_STREAM                      = 0x42,
             CMD_60128_CONNECT_6021_DATA_STREAM          = 0x44,
         };
@@ -93,7 +93,7 @@ class CS2Connector : private boost::noncopyable {
         MsgData recieveData();
         void sendData(const MsgData &data);
 
-        std::string getCommmandAsString(CanCommand cmd);
+        std::string getCommmandAsString(int cmd);
 
     protected:
         static const int PORT        = 15730;

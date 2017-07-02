@@ -68,7 +68,7 @@ CS2Connector::MsgData CS2Connector::recieveData() {
 
     RawCanData raw;
     int recv_len;
-    memset((void*)&raw, '\0', sizeof(can));
+    memset((void*)&raw, '\0', sizeof(raw));
 
     if((recv_len = ::recvfrom(socket, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
         throw CS2ConnectorException("recv from returned -1");
@@ -77,46 +77,46 @@ CS2Connector::MsgData CS2Connector::recieveData() {
 
 
 
-    std::cerr << (int)can.Header[1] << std::endl;
+    std::cerr << getCommmandAsString(raw.header[1]) << std::endl;
 
 
     std::cerr << std::uppercase;
-    std::bitset<8> x(can.Header[0]);
+    std::bitset<8> x(raw.header[0]);
     std::cerr << x << " ";
 
-    std::bitset<8> y(can.Header[1]);
+    std::bitset<8> y(raw.header[1]);
     std::cerr << y << " ";
 
-    std::bitset<8> z(can.Hash[0]);
+    std::bitset<8> z(raw.hash[0]);
     std::cerr << z << " ";
 
-    std::bitset<8> a(can.Hash[1]);
+    std::bitset<8> a(raw.hash[1]);
     std::cerr << a << " ";
 
-    std::bitset<8> b(can.Length);
+    std::bitset<8> b(raw.length);
     std::cerr << b << " - ";
 
-    std::bitset<8> t(can.Data[0]);
+    std::bitset<8> t(raw.data[0]);
     std::cerr << t << " ";
 
 
     std::cerr << std::endl;
 
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Header[0]) << " ";
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Header[1]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.header[0]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.header[1]) << " ";
 
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Hash[0]) << " ";
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Hash[1]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.hash[0]) << " ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.hash[1]) << " ";
 
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(can.Length) << " - ";
+    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.length) << " - ";
 
     for(int j = 0; j < 4; ++j) {
-        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(can.UID[j]) << " ";
+        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(raw.uid[j]) << " ";
     }
 
 
     for(int j = 0; j < 4; ++j) {
-        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(can.Data[j]) << " ";
+        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(raw.data[j]) << " ";
     }
 
 
@@ -149,6 +149,82 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     return m;
 }
 
+std::string CS2Connector::getCommmandAsString(int cmd) {
+    switch(cmd) {
+        case CMD_SYSTEM:
+            return "CMD_SYSTEM";
+
+        case CMD_LOK_DISCOVERY:
+            return "CMD_LOK_DISCOVERY";
+
+        case CMD_MFX_BIND:
+            return "CMD_MFX_BIND";
+
+        case CMD_MFX_VERIFY:
+            return "CMD_MFX_VERIFY";
+
+        case CMD_LOK_SPEED:
+            return "CMD_LOK_SPEED";
+
+        case CMD_LOK_DIRECTION:
+            return "CMD_LOK_DIRECTION";
+
+        case CMD_LOK_FUNCTION:
+            return "CMD_LOK_FUNCTION";
+
+        case CMD_READ_CONFIG:
+            return "CMD_READ_CONFIG";
+
+        case CMD_WRITE_CONFIG:
+            return "CMD_WRITE_CONFIG";
+
+        case CMD_SET_SWITCH:
+            return "CMD_SET_SWITCH";
+
+        case CMD_ATTACHMENTS_CONFIG:
+            return "CMD_ATTACHMENTS_CONFIG";
+
+        case CMD_S88_POLLING:
+            return "CMD_S88_POLLING";
+
+        case CMD_S88_EVENT:
+            return "CMD_S88_EVENT";
+
+        case CMD_SX1_EVENT:
+            return "CMD_SX1_EVENT";
+
+        case CMD_PING:
+            return "CMD_PING";
+
+        case CMD_UPDATE_OFFER:
+            return "CMD_UPDATE_OFFER";
+
+        case CMD_READ_CONFIG_DATA:
+            return "CMD_READ_CONFIG_DATA";
+
+        case CMD_BOOTLOADER_CAN:
+            return "CMD_BOOTLOADER_CAN";
+
+        case CMD_BOOTLOADER_TRACK:
+            return "CMD_BOOTLOADER_TRACK";
+
+        case CMD_STATUS_DATA_CONFIGURATION:
+            return "CMD_STATUS_DATA_CONFIGURATION";
+
+        case CMD_CONFIG_DATA_QUERY:
+            return "CMD_CONFIG_DATA_QUERY";
+
+        case CMD_CONFIG_DATA_STREAM:
+            return "CMD_CONFIG_DATA_STREAM";
+
+        case CMD_60128_CONNECT_6021_DATA_STREAM:
+            return "CMD_60128_CONNECT_6021_DATA_STREAM";
+
+        default:
+            return "UNBEKANNT ";
+    }
+}
+
 
 
 
@@ -166,13 +242,10 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     MsgData m;
 
 
-    //std::cerr << ++i << " Waiting for data..." << std::endl;
     memset(buf,'\0', BUFFER_SIZE);
     if((recv_len = ::recvfrom(socket, buf, BUFFER_SIZE, 0, (struct sockaddr *) &si_other, &slen)) == -1) {
         throw CS2ConnectorException("recvfrom returned -1");
     }
-
-    std::cerr << std::uppercase;
 
     for(int i = 0; i < recv_len; ++i) {
         std::bitset<8> x(buf[i]);
