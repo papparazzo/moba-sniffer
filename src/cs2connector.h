@@ -71,20 +71,20 @@ class CS2Connector : private boost::noncopyable {
 
         enum SystemSubCommand {
             SYS_SUB_CMD_SYSTEM_STOP                        = 0x00,
-            SYS_SUB_CMD_SYSTEM_Go                          = 0x01,
+            SYS_SUB_CMD_SYSTEM_GO                          = 0x01,
             SYS_SUB_CMD_SSYSTEM_HALT                       = 0x02,
             SYS_SUB_CMD_LOCO_EMERGENCY_STOP                = 0x03,
             SYS_SUB_CMD_LOCO_CYCLE_STOP                    = 0x04,
 //            SYS_SUB_CMD_Lok Datenprotokoll                 = 0x05,
-//            SYS_SUB_CMD_Schaltzeit Zubehördecoder          = 0x06,
-//            SYS_SUB_CMD_Fast Read für mfx                  = 0x07,
+            SYS_SUB_CMD_CIRCUIT_TIME_ATTACHMENTS_DECODER   = 0x06,
+            SYS_SUB_CMD_FAST_READ_MFX                      = 0x07,
 //            SYS_SUB_CMD_Gleisprotokoll frei schalten       = 0x08,
 //            SYS_SUB_CMD_System MFX Neuanmeldezähler setzen = 0x09,
-//            SYS_SUB_CMD_System Überlast                    = 0x0A,
-//            SYS_SUB_CMD_System Status                      = 0x0B,
-//            SYS_SUB_CMD_System Kennung                     = 0x0C,
-//            SYS_SUB_CMD_Mfx Seek                           = 0x30,
-//            SYS_SUB_CMD_System Reset                       = 0x80,
+            SYS_SUB_CMD_SYSTEM_OVERLAOD                    = 0x0A,
+            SYS_SUB_CMD_SYSTEM_STATUS                      = 0x0B,
+            SYS_SUB_CMD_SYSTEM_IDENTIFIER                  = 0x0C,
+            SYS_SUB_CMD_MFX_SEEK                           = 0x30,
+            SYS_SUB_CMD_SYSTEM_RESET                       = 0x80,
         };
 
         struct RawCanData {
@@ -112,6 +112,7 @@ class CS2Connector : private boost::noncopyable {
         void sendData(const MsgData &data);
 
         std::string getCommmandAsString(int cmd);
+        std::string getSystemSubCommand(int subCmd);
 
     protected:
         static const int PORT        = 15730;

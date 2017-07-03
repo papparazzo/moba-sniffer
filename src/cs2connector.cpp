@@ -75,47 +75,30 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     }
     MsgData mi;
 
+    std::cerr << getCommmandAsString(raw.header[1]);
 
-    std::cerr << getCommmandAsString(raw.header[1]) << std::endl;
-
-
-    std::cerr << std::uppercase;
-    std::bitset<8> x(raw.header[0]);
-    std::cerr << x << " ";
-
-    std::bitset<8> y(raw.header[1]);
-    std::cerr << y << " ";
-
-    std::bitset<8> z(raw.hash[0]);
-    std::cerr << z << " ";
-
-    std::bitset<8> a(raw.hash[1]);
-    std::cerr << a << " ";
-
-    std::bitset<8> b(raw.length);
-    std::cerr << b << " - ";
-
-    std::bitset<8> t(raw.data[0]);
-    std::cerr << t << " ";
-
-
-    std::cerr << std::endl;
-
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.header[0]) << " ";
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.header[1]) << " ";
-
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.hash[0]) << " ";
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.hash[1]) << " ";
-
-    std::cerr << std::setfill(' ') << std::setw(8) << std::hex << static_cast<unsigned int>(raw.length) << " - ";
-
-    for(int j = 0; j < 4; ++j) {
-        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(raw.uid[j]) << " ";
+    if(raw.header[1] == CMD_SYSTEM) {
+        std::cerr << " - " << getSystemSubCommand(raw.data[0]);
     }
 
+    std::cerr << std::uppercase << std::endl;
+
+    std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.header[0]) << " ";
+    std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.header[1]) << " - ";
+
+    std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.hash[0]) << " ";
+    std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.hash[1]) << " - ";
+
+    std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.length) << " - ";
 
     for(int j = 0; j < 4; ++j) {
-        std::cerr << std::setfill(' ') << std::hex << static_cast<unsigned int>(raw.data[j]) << " ";
+        std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.uid[j]) << " ";
+    }
+
+    std::cerr << " - ";
+
+    for(int j = 0; j < raw.length - 4; ++j) {
+        std::cerr << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(raw.data[j]) << " ";
     }
 
 
@@ -220,11 +203,56 @@ std::string CS2Connector::getCommmandAsString(int cmd) {
             return "CMD_60128_CONNECT_6021_DATA_STREAM";
 
         default:
-            return "UNBEKANNT ";
+            return "UNBEKANNT";
     }
 }
 
+std::string CS2Connector::getSystemSubCommand(int subCmd) {
+    switch(subCmd) {
+        case SYS_SUB_CMD_SYSTEM_STOP:
+            return "SYS_SUB_CMD_SYSTEM_STOP";
 
+        case SYS_SUB_CMD_SYSTEM_GO:
+            return "SYS_SUB_CMD_SYSTEM_GO";
+
+        case SYS_SUB_CMD_SSYSTEM_HALT:
+            return "SYS_SUB_CMD_SSYSTEM_HALT";
+
+        case SYS_SUB_CMD_LOCO_EMERGENCY_STOP:
+            return "SYS_SUB_CMD_LOCO_EMERGENCY_STOP";
+
+        case SYS_SUB_CMD_LOCO_CYCLE_STOP:
+            return "SYS_SUB_CMD_LOCO_CYCLE_STOP";
+
+        //case         SYS_SUB_CMD_Lok Datenprotokoll
+        case SYS_SUB_CMD_CIRCUIT_TIME_ATTACHMENTS_DECODER:
+            return "SYS_SUB_CMD_CIRCUIT_TIME_ATTACHMENTS_DECODER";
+
+        case SYS_SUB_CMD_FAST_READ_MFX:
+            return "SYS_SUB_CMD_FAST_READ_MFX";
+
+        //case         SYS_SUB_CMD_Gleisprotokoll frei schalten
+        //case         SYS_SUB_CMD_System MFX Neuanmeldezähler s
+
+        case SYS_SUB_CMD_SYSTEM_OVERLAOD:
+            return "SYS_SUB_CMD_SYSTEM_OVERLAOD";
+
+        case SYS_SUB_CMD_SYSTEM_STATUS:
+            return "SYS_SUB_CMD_SYSTEM_STATUS";
+
+        case SYS_SUB_CMD_SYSTEM_IDENTIFIER:
+            return "SYS_SUB_CMD_SYSTEM_IDENTIFIER";
+
+        case SYS_SUB_CMD_MFX_SEEK:
+            return "SYS_SUB_CMD_MFX_SEEK";
+
+        case SYS_SUB_CMD_SYSTEM_RESET:
+            return "SYS_SUB_CMD_SYSTEM_RESET";
+
+        default:
+            return "UNBEKANNT";
+    }
+}
 
 
 
