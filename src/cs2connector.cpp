@@ -33,27 +33,27 @@
 
 #include "cs2connector.h"
 
-CS2Connector::CS2Connector() : socket(-1) {
+CS2Connector::CS2Connector() : fd_read(-1) {
 
 }
 
 CS2Connector::~CS2Connector() {
-    ::close(socket);
+    ::close(fd_read);
 }
 
 void CS2Connector::connect() {
     struct sockaddr_in s_addr;
 
-    if((socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+    if((fd_read = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
         throw CS2ConnectorException("socket-creation failed");
     }
 
     memset((char *) &s_addr, 0, sizeof(s_addr));
     s_addr.sin_family = AF_INET;
-    s_addr.sin_port = htons(PORT);
+    s_addr.sin_port = htons(PORT_READ);
     s_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if(::bind(socket, (struct sockaddr*)&s_addr, sizeof(s_addr)) == -1) {
+    if(::bind(fd_read, (struct sockaddr*)&s_addr, sizeof(s_addr)) == -1) {
         throw CS2ConnectorException("binding failed");
     }
 }
@@ -70,7 +70,7 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     int recv_len;
     memset((void*)&raw, '\0', sizeof(raw));
 
-    if((recv_len = ::recvfrom(socket, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
+    if((recv_len = ::recvfrom(fd_read, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
         throw CS2ConnectorException("recv from returned -1");
     }
     MsgData mi;
@@ -315,3 +315,4 @@ CanTx.Data[0] = 0x00; // Sub Cmd Stop
 
 error = SendBytes(CanTx);
  */
+

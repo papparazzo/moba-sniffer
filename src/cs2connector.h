@@ -115,9 +115,11 @@ class CS2Connector : private boost::noncopyable {
         std::string getSystemSubCommand(int subCmd);
 
     protected:
-        static const int PORT        = 15730;
+        static const int PORT_READ   = 15730;
+        static const int PORT_WRITE  = 15731;
         static const int BUFFER_SIZE = 512;
-        int socket;
+        int fd_read;
+        int fd_write;
 };
 
 
