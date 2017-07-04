@@ -22,6 +22,8 @@
 #include <boost/noncopyable.hpp>
 #include <string>
 #include <exception>
+#include <netinet/in.h>
+#include <sys/socket.h>
 
 class CS2ConnectorException : public std::exception {
 
@@ -107,7 +109,7 @@ class CS2Connector : private boost::noncopyable {
         CS2Connector();
         virtual ~CS2Connector();
 
-        void connect();
+        void connect(const std::string &host);
         MsgData recieveData();
         void sendData(const MsgData &data);
 
@@ -120,8 +122,5 @@ class CS2Connector : private boost::noncopyable {
         static const int BUFFER_SIZE = 512;
         int fd_read;
         int fd_write;
+        struct sockaddr_in s_addr_write;
 };
-
-
-
-

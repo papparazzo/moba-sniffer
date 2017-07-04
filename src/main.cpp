@@ -27,11 +27,11 @@ int main(int argc, char *argv[]) {
 
     CS2Connector cs2;
 
-    cs2.connect();
+    cs2.connect("192.168.178.38");
     while(1) {
         cs2.recieveData();
     }
-    
+
 }
 
 

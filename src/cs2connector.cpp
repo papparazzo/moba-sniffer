@@ -19,10 +19,8 @@
  */
 
 #include <arpa/inet.h>
-#include <netinet/in.h>
 #include <stdio.h>
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <unistd.h>
 
 #include <cstring>
@@ -33,44 +31,65 @@
 
 #include "cs2connector.h"
 
-CS2Connector::CS2Connector() : fd_read(-1) {
+CS2Connector::CS2Connector() : fd_read(-1), fd_write(-1) {
 
 }
 
 CS2Connector::~CS2Connector() {
-    ::close(fd_read);
+    if(fd_read != -1) {
+        ::close(fd_read);
+    }
+    if(fd_write != -1) {
+        ::close(fd_write);
+    }
 }
 
-void CS2Connector::connect() {
-    struct sockaddr_in s_addr;
+void CS2Connector::connect(const std::string &host) {
+    struct sockaddr_in s_addr_read;
 
     if((fd_read = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
-        throw CS2ConnectorException("socket-creation failed");
+        throw CS2ConnectorException("socket-creation for reading failed");
     }
 
-    memset((char *) &s_addr, 0, sizeof(s_addr));
-    s_addr.sin_family = AF_INET;
-    s_addr.sin_port = htons(PORT_READ);
-    s_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    ::memset((char *) &s_addr_read, 0, sizeof(s_addr_read));
+    s_addr_read.sin_family = AF_INET;
+    s_addr_read.sin_port = htons(PORT_READ);
+    s_addr_read.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    if(::bind(fd_read, (struct sockaddr*)&s_addr, sizeof(s_addr)) == -1) {
+    if(::bind(fd_read, (struct sockaddr*)&s_addr_read, sizeof(s_addr_read)) == -1) {
         throw CS2ConnectorException("binding failed");
+    }
+
+    if((fd_write = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+        throw CS2ConnectorException("socket-creation for writing failed");
+    }
+
+    ::memset((char *) &s_addr_write, 0, sizeof(s_addr_write));
+    s_addr_write.sin_family = AF_INET;
+    s_addr_write.sin_port = htons(PORT_WRITE);
+
+    if(::inet_aton(host.c_str() , &s_addr_write.sin_addr) == 0) {
+        throw CS2ConnectorException("inet_aton failed");
     }
 }
 
 void CS2Connector::sendData(const MsgData& data) {
+    RawCanData raw;
 
+    if (::sendto(fd_write, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &s_addr_write, sizeof(s_addr_write)) == -1) {
+        throw CS2ConnectorException("sending failed");
+    }
 }
 
 CS2Connector::MsgData CS2Connector::recieveData() {
-    struct sockaddr_in si_other;
-    socklen_t slen = sizeof(si_other);
+    struct sockaddr_in s_addr_other;
+    socklen_t slen = sizeof(s_addr_other);
 
     RawCanData raw;
     int recv_len;
     memset((void*)&raw, '\0', sizeof(raw));
 
-    if((recv_len = ::recvfrom(fd_read, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &si_other, &slen)) == -1) {
+    if((recv_len = ::recvfrom(fd_read, (void*)&raw, sizeof(raw), 0, (struct sockaddr *) &s_addr_other, &slen)) == -1) {
         throw CS2ConnectorException("recv from returned -1");
     }
     MsgData mi;
