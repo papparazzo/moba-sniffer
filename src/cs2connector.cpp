@@ -125,18 +125,10 @@ CS2Connector::MsgData CS2Connector::recieveData() {
     std::cerr << "---------------------------------------------------------------";
     std::cerr << std::endl;
 
-
-
-
-
     int i = 0;
 
     MsgData m;
 /*
-
-
-
-
 
     std::cerr << std::endl;
 
