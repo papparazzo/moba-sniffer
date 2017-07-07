@@ -32,7 +32,6 @@
 #include "cs2connector.h"
 
 CS2Connector::CS2Connector() : fd_read(-1), fd_write(-1) {
-
 }
 
 CS2Connector::~CS2Connector() {
