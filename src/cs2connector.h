@@ -25,6 +25,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
+#include <cstdint>
+
 class CS2ConnectorException : public std::exception {
 
     public:
@@ -45,73 +47,20 @@ class CS2ConnectorException : public std::exception {
 
 class CS2Connector : private boost::noncopyable {
     public:
-        enum CanCommand {
-            CMD_SYSTEM                                  = 0x00,
-            CMD_LOCO_DISCOVERY                          = 0x02,
-            CMD_MFX_BIND                                = 0x04,
-            CMD_MFX_VERIFY                              = 0x06,
-            CMD_LOCO_SPEED                              = 0x08,
-            CMD_LOCO_DIRECTION                          = 0x0A,
-            CMD_LOCO_FUNCTION                           = 0x0C,
-            CMD_READ_CONFIG                             = 0x0E,
-            CMD_WRITE_CONFIG                            = 0x10,
-            CMD_SET_SWITCH                              = 0x16,
-            CMD_ATTACHMENTS_CONFIG                      = 0x18,
-            CMD_S88_POLLING                             = 0x20,
-            CMD_S88_EVENT                               = 0x22,
-            CMD_SX1_EVENT                               = 0x24,
-            CMD_PING                                    = 0x30,
-            CMD_UPDATE_OFFER                            = 0x32,
-            CMD_READ_CONFIG_DATA                        = 0x34,
-            CMD_BOOTLOADER_CAN                          = 0x36,
-            CMD_BOOTLOADER_TRACK                        = 0x38,
-            CMD_STATUS_DATA_CONFIGURATION               = 0x3A,
-            CMD_CONFIG_DATA_QUERY                       = 0x40,
-            CMD_CONFIG_DATA_STREAM                      = 0x42,
-            CMD_60128_CONNECT_6021_DATA_STREAM          = 0x44,
-        };
-
-        enum SystemSubCommand {
-            SYS_SUB_CMD_SYSTEM_STOP                        = 0x00,
-            SYS_SUB_CMD_SYSTEM_GO                          = 0x01,
-            SYS_SUB_CMD_SSYSTEM_HALT                       = 0x02,
-            SYS_SUB_CMD_LOCO_EMERGENCY_STOP                = 0x03,
-            SYS_SUB_CMD_LOCO_CYCLE_STOP                    = 0x04,
-//            SYS_SUB_CMD_Lok Datenprotokoll                 = 0x05,
-            SYS_SUB_CMD_CIRCUIT_TIME_ATTACHMENTS_DECODER   = 0x06,
-            SYS_SUB_CMD_FAST_READ_MFX                      = 0x07,
-//            SYS_SUB_CMD_Gleisprotokoll frei schalten       = 0x08,
-//            SYS_SUB_CMD_System MFX Neuanmeldezähler setzen = 0x09,
-            SYS_SUB_CMD_SYSTEM_OVERLAOD                    = 0x0A,
-            SYS_SUB_CMD_SYSTEM_STATUS                      = 0x0B,
-            SYS_SUB_CMD_SYSTEM_IDENTIFIER                  = 0x0C,
-            SYS_SUB_CMD_MFX_SEEK                           = 0x30,
-            SYS_SUB_CMD_SYSTEM_RESET                       = 0x80,
-        };
-
-        struct RawCanData {
-            unsigned char header[2];
-            unsigned char hash[2];
-            unsigned char length;
-            unsigned char uid[4];
-            unsigned char data[4];
-        };
-
-        struct MsgData {
-            char prio;       // 2 + 2 Bits
-            CanCommand cmd;        // 1 Byte
-            bool response;   // 1 Bit
-            char hash[2];    // 2 Bytes
-            char dlc;        // 4 Bit
-            char data[8];
+        struct RawData {
+            uint8_t header[2];
+            uint8_t hash[2];
+            uint8_t length;
+            uint8_t uid[4];
+            uint8_t data[4];
         };
 
         CS2Connector();
         virtual ~CS2Connector();
 
         void connect(const std::string &host);
-        MsgData recieveData();
-        void sendData(const MsgData &data);
+        RawData recieveData();
+        void sendData(const RawData &data);
 
         std::string getCommmandAsString(int cmd);
         std::string getSystemSubCommand(int subCmd);
@@ -120,6 +69,9 @@ class CS2Connector : private boost::noncopyable {
         static const int PORT_READ   = 15730;
         static const int PORT_WRITE  = 15731;
         static const int BUFFER_SIZE = 512;
+
+        static const int MSG_HANDLER_TIME_OUT_USEC = 0;
+
         int fd_read;
         int fd_write;
         struct sockaddr_in s_addr_write;
