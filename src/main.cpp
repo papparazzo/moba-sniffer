@@ -255,29 +255,3 @@ int main(int argc, char *argv[]) {
         std::cerr << std::endl;
     }
 }
-
-
-
-
-/*
-#include <iostream>
-
-#include <gtkmm/application.h>
-
-
-
-#include "frmmain.h"
-#include "config.h"
-
-
-    auto app = Gtk::Application::create(argc, argv, "org.moba.sniffer");
-
-    FrmMain frmMain;
-    frmMain.set_title("CS2 Sniffer");
-    frmMain.set_border_width(10);
-    frmMain.set_default_size(400, 200);
-
-    return app->run(frmMain);
-}
-
- */
