@@ -3,7 +3,6 @@ bin_PROGRAMS = \
     moba-sniffer
 moba_sniffer_SOURCES = \
     main.cpp \
-    frmmain.cpp \
     cs2connector.cpp
 
 
