@@ -1,4 +1,4 @@
-AC_PREREQ([2.68])
+AC_PREREQ([2.69])
 AC_INIT([moba-sniffer], [0.1.0-0000], [pappi-@gmx.de])
 
 AC_CONFIG_SRCDIR([src])
