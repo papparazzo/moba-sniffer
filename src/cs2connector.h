@@ -27,6 +27,8 @@
 
 #include <cstdint>
 
+#include "shared.h"
+
 class CS2ConnectorException : public std::exception {
 
     public:
@@ -47,20 +49,12 @@ class CS2ConnectorException : public std::exception {
 
 class CS2Connector : private boost::noncopyable {
     public:
-        struct RawData {
-            uint8_t header[2];
-            uint8_t hash[2];
-            uint8_t length;
-            uint8_t uid[4];
-            uint8_t data[4];
-        };
-
         CS2Connector();
         virtual ~CS2Connector();
 
         void connect(const std::string &host);
-        RawData recieveData();
-        void sendData(const RawData &data);
+        CS2CanCommand recieveData();
+        void sendData(const CS2CanCommand &data);
 
         std::string getCommmandAsString(int cmd);
         std::string getSystemSubCommand(int subCmd);

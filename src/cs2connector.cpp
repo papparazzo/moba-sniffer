@@ -25,6 +25,7 @@
 
 #include <cstring>
 #include "cs2connector.h"
+#include "shared.h"
 
 CS2Connector::CS2Connector() : fd_read(-1), fd_write(-1) {
 }
@@ -67,17 +68,17 @@ void CS2Connector::connect(const std::string &host) {
     }
 }
 
-void CS2Connector::sendData(const RawData &data) {
+void CS2Connector::sendData(const CS2CanCommand &data) {
     if(::sendto(fd_write, (void*)&data, sizeof(data), 0, (struct sockaddr *)&s_addr_write, sizeof(s_addr_write)) == -1) {
         throw CS2ConnectorException("sending failed");
     }
 }
 
-CS2Connector::RawData CS2Connector::recieveData() {
+CS2CanCommand CS2Connector::recieveData() {
     struct sockaddr_in s_addr_other;
     socklen_t slen = sizeof(s_addr_other);
 
-    RawData raw;
+    CS2CanCommand raw;
     int recv_len;
     memset((void*)&raw, '\0', sizeof(raw));
 
