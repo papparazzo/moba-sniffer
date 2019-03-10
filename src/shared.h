@@ -101,3 +101,9 @@ std::string getCommmandAsString(int cmd);
 std::string getSystemSubCommand(int subCmd);
 
 void printCanCommand(const CS2CanCommand &raw);
+
+inline CS2CanCommand setLocSpeed(uint32_t locId, uint16_t speed) {
+    uint8_t low  = speed & 0xFF;
+    uint8_t high = (speed >> 8) & 0xFF;
+    return std::move(CS2CanCommand(CanCommand::CMD_LOCO_SPEED, 6, locId, low, high));
+}
