@@ -4,7 +4,8 @@ bin_PROGRAMS = \
 moba_sniffer_SOURCES = \
     main.cpp \
     cs2connector.cpp \
-    shared.cpp
+    shared.cpp \
+    configData.cpp
 
 
 moba_sniffer_LDADD = -lMoBaCommon $(GTKMM_LIBS)
