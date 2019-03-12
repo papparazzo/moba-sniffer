@@ -19,6 +19,7 @@
  */
 
 #include "configData.h"
+#include <cstring>
 
 namespace {
     std::uint16_t crcTable [256] = {
@@ -57,21 +58,29 @@ namespace {
     };
 }
 
-ConfigData::ConfigData(std::size_t size, std::uint16_t crc) : size{size}, crc{crc} {
-    data = ::new std::uint8_t[size];
+ConfigData::ConfigData(std::size_t size, std::uint16_t crc) : size{size}, crc{crc}, ptr{0} {
+    content = ::new std::uint8_t[size];
 }
 
 ConfigData::~ConfigData() {
-    ::delete[] data;
+    ::delete[] content;
 }
 
-bool ConfigData::insert(const CS2CanCommand &cmd) {
+bool ConfigData::insert(const std::uint8_t *data, std::size_t length) {
 
-    //if() {
-    //    return false;
-    //}
+    if(ptr + length > size) {
+        throw ConfigDataException("out of range!");
+    }
 
-    if(crcCheck(data, size) != crc) {
+    memcpy(&content[ptr], data, length);
+
+    ptr += length;
+
+    if(ptr != size) {
+        return false;
+    }
+
+    if(crcCheck(content, size) != crc) {
         throw ConfigDataException("crc-check failed!");
     }
 

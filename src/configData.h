@@ -48,14 +48,14 @@ class ConfigData {
         ConfigData(std::size_t size, std::uint16_t crc);
         virtual ~ConfigData();
 
-        bool insert(const CS2CanCommand &cmd);
+        bool insert(const std::uint8_t *data, std::size_t length);
 
     protected:
         std::uint16_t crc;
         std::size_t size;
         std::size_t ptr = 0;
 
-        std::uint8_t *data = nullptr;
+        std::uint8_t *content = nullptr;
 
         std::uint16_t crcCheck(std::uint8_t *data, std::size_t length);
 };
