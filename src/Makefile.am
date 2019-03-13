@@ -11,6 +11,6 @@ moba_sniffer_SOURCES = \
 moba_sniffer_LDADD = -lMoBaCommon $(GTKMM_LIBS)
 LDFLAGS += -L/usr/local/lib
 
-AM_CPPFLAGS = $(GTKMM_CFLAGS)
+AM_CPPFLAGS = $(GTKMM_CFLAGS) -g3 -ggdb -O3 -Wall
 
 CLEANFILES = *~
