@@ -45,15 +45,14 @@ class ConfigDataException : public std::exception {
 
 class ConfigData {
     public:
-        ConfigData(std::size_t size, std::uint16_t crc);
         virtual ~ConfigData();
-
+        void init(std::size_t dataLength, std::uint16_t dataCrc);
         bool insert(const std::uint8_t *data, std::size_t length);
 
     protected:
-        std::uint16_t crc;
-        std::size_t size;
-        std::size_t ptr = 0;
+        std::size_t   size = 0;
+        std::uint16_t crc = 0;
+        std::size_t   ptr = 0;
 
         std::uint8_t *content = nullptr;
 

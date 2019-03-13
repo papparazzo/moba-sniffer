@@ -58,12 +58,18 @@ namespace {
     };
 }
 
-ConfigData::ConfigData(std::size_t size, std::uint16_t crc) : size{size}, crc{crc}, ptr{0} {
-    content = ::new std::uint8_t[size];
-}
-
 ConfigData::~ConfigData() {
     ::delete[] content;
+}
+
+void ConfigData::init(std::size_t dataLength, std::uint16_t dataCrc) {
+    if(content) {
+        ::delete[] content;
+    }
+
+    crc = dataCrc;
+    size = dataLength;
+    content = ::new std::uint8_t[dataLength];
 }
 
 bool ConfigData::insert(const std::uint8_t *data, std::size_t length) {
