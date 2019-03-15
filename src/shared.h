@@ -69,11 +69,11 @@ enum SystemSubCommand {
 
 struct CS2CanCommand {
     CS2CanCommand(
-        CanCommand cmd = CanCommand::CMD_SYSTEM, uint8_t length = 0x00, uint32_t uident = 0x000000,
-        uint8_t data0 = 0x00, uint8_t data1 = 0x00, uint8_t data2 = 0x00, uint8_t data3 = 0x00
+        CanCommand cmd = CanCommand::CMD_SYSTEM, std::uint8_t length = 0x00, std::uint32_t uident = 0x000000,
+        std::uint8_t data0 = 0x00, std::uint8_t data1 = 0x00, std::uint8_t data2 = 0x00, std::uint8_t data3 = 0x00
     ) {
         header[0] = 0x00;
-        header[1] = static_cast<uint8_t>(cmd);
+        header[1] = static_cast<std::uint8_t>(cmd);
 
         hash[0] = 0x03;
         hash[1] = 0x00;
@@ -90,11 +90,11 @@ struct CS2CanCommand {
         data[3] = data3;
     }
 
-    uint8_t header[2];
-    uint8_t hash[2];
-    uint8_t len;
-    uint8_t uid[4];
-    uint8_t data[4];
+    std::uint8_t header[2];
+    std::uint8_t hash[2];
+    std::uint8_t len;
+    std::uint8_t uid[4];
+    std::uint8_t data[4];
 };
 
 std::string getCommmandAsString(int cmd);
@@ -102,8 +102,8 @@ std::string getSystemSubCommand(int subCmd);
 
 void printCanCommand(const CS2CanCommand &raw);
 
-inline CS2CanCommand setLocSpeed(uint32_t locId, uint16_t speed) {
-    uint8_t low  = speed & 0xFF;
-    uint8_t high = (speed >> 8) & 0xFF;
+inline CS2CanCommand setLocSpeed(std::uint32_t locId, std::uint16_t speed) {
+    std::uint8_t low  = speed & 0xFF;
+    std::uint8_t high = (speed >> 8) & 0xFF;
     return std::move(CS2CanCommand(CanCommand::CMD_LOCO_SPEED, 6, locId, low, high));
 }
