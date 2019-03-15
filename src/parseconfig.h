@@ -21,6 +21,7 @@
 #pragma once
 
 #include "shared.h"
+#include "configdata.h"
 
 class ParseConfig {
     public:
