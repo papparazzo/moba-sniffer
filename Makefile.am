@@ -1,3 +1,3 @@
 ## Process this file with automake to generate Makefile.in
-SUBDIRS = src
+SUBDIRS = modules/lib-cs2interface/src/moba src
 CLEANFILES = *~

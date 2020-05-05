@@ -1,0 +1,3 @@
+[submodule "modules/lib-cs2interface"]
+	path = modules/lib-cs2interface
+	url = https://github.com/papparazzo/moba-lib-cs2interface.git

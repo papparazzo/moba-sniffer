@@ -3,15 +3,13 @@ bin_PROGRAMS = \
     moba-sniffer
 moba_sniffer_SOURCES = \
     main.cpp \
-    cs2connector.cpp \
-    shared.cpp \
-    configdata.cpp \
-    parseconfig.cpp
+    shared.cpp
 
-
-moba_sniffer_LDADD = -lMoBaCommon $(GTKMM_LIBS)
+moba_sniffer_LDADD = -lmobacommon $(srcdir)/../modules/lib-cs2interface/src/moba/libcs2interface.a
 LDFLAGS += -L/usr/local/lib
 
-AM_CPPFLAGS = $(GTKMM_CFLAGS) -g3 -ggdb -O3 -Wall
+AM_CPPFLAGS = -I$(srcdir)/../modules/lib-cs2interface/src -g3 -ggdb -O3 -Wall
+
+ACLOCAL_AMFLAGS = -I m4
 
 CLEANFILES = *~
