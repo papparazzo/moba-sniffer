@@ -32,14 +32,14 @@ void printCanCommand(const CS2CanCommand &raw) {
         static_cast<unsigned int>(raw.hash[0]),
         static_cast<unsigned int>(raw.hash[1]),
         static_cast<unsigned int>(raw.len),
-        static_cast<unsigned int>(raw.uid[0]),
-        static_cast<unsigned int>(raw.uid[1]),
-        static_cast<unsigned int>(raw.uid[2]),
-        static_cast<unsigned int>(raw.uid[3]),
         static_cast<unsigned int>(raw.data[0]),
         static_cast<unsigned int>(raw.data[1]),
         static_cast<unsigned int>(raw.data[2]),
-        static_cast<unsigned int>(raw.data[3])
+        static_cast<unsigned int>(raw.data[3]),
+        static_cast<unsigned int>(raw.data[4]),
+        static_cast<unsigned int>(raw.data[5]),
+        static_cast<unsigned int>(raw.data[6]),
+        static_cast<unsigned int>(raw.data[7])
     );
 
     bool response = false;
