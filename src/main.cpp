@@ -33,7 +33,7 @@
 int main(int argc, char *argv[]) {
     moba::common::setCoreFileSizeToULimit();
 
-    PrintCanCommand printer;
+    PrintCanCommand printer{{CanCommand::CMD_PING, CanCommand::CMD_MFX_BIND}};
 
     CS2Writer cs2writer;
     CS2Reader cs2reader;
@@ -72,14 +72,14 @@ int main(int argc, char *argv[]) {
     while(true) {
         CS2CanCommand data = cs2reader.read();
 
-        if(data.header[1] == static_cast<uint8_t>(CanCommand::CMD_SET_SWITCH | 0x01)) {
+        if(data.header[1] == static_cast<std::uint8_t>(CanCommand::CMD_SET_SWITCH | 0x01)) {
             printer.handleCanCommand(data);
         }
 
 
         parser.handleCanCommand(data);
 
-        if(data.header[1] == static_cast<uint8_t>(CanCommand::CMD_S88_EVENT | 0x01)) {
+        if(data.header[1] == static_cast<std::uint8_t>(CanCommand::CMD_S88_EVENT | 0x01)) {
             if(data.getWordAt2() == 8) {
                 cs2writer.send(setLocSpeed(16390, 0));
                 sleep(5);
