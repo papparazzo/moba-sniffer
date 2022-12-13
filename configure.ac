@@ -5,7 +5,7 @@ AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SUBDIRS([modules/lib-cs2interface])
 
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([-Wall foreign])
 
 # Checks for programs.
 AC_PROG_CXX
