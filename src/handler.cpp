@@ -39,9 +39,6 @@ Handler::~Handler() {
 }
 
 void Handler::printConfigList(const std::string &name) {
-
-    //"lokstatus"
-
     auto dump = std::make_shared<ConfigDumpReader>(name);
 
     ConfigReader configReader{};
@@ -94,4 +91,13 @@ void Handler::printFeedBackAction() {
     while(true) {
         sniffer.handleCanCommand(cs2reader.read());
     }
+}
+
+void Handler::setFunction(std::uint32_t localId, std::uint8_t function, bool on) {
+    std::cout << "localid " << localId << " function " << function << " on " << on << std::endl;
+    cs2writer.send(setLocFunction(localId, function, on));
+}
+
+void Handler::setSpeed(std::uint32_t localId, std::uint16_t speed) {
+    cs2writer.send(setLocSpeed(localId, speed));
 }

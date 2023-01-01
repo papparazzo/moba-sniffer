@@ -33,9 +33,11 @@ public:
     void printFeedBackAction();
     void printConfigList(const std::string &name);
 
+    void setFunction(std::uint32_t localId, std::uint8_t function, bool on);
+    void setSpeed(std::uint32_t localId, std::uint16_t speed);
+
 private:
     CS2Writer cs2writer;
     CS2Reader cs2reader;
-
 };
 
