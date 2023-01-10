@@ -101,3 +101,9 @@ void Handler::setFunction(std::uint32_t localId, std::uint8_t function, bool on)
 void Handler::setSpeed(std::uint32_t localId, std::uint16_t speed) {
     cs2writer.send(setLocSpeed(localId, speed));
 }
+
+void Handler::setSwitch(std::uint8_t addr, bool r) {
+    cs2writer.send(::setSwitch(convertMMToLocId(addr), r, true));
+    usleep(50000);
+    cs2writer.send(::setSwitch(convertMMToLocId(addr), r, false));
+}
