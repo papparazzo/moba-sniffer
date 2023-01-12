@@ -62,7 +62,7 @@ void printHelp(const std::string &applName) {
 
 bool parseArguments(int argc, char** argv, CmdLineArguments &args) {
     if(argc < 2) {
-        printHelp(basename(argv[0]) );
+        printHelp(basename(argv[0]));
         return true;
     }
 
@@ -146,23 +146,5 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
-
-/*
-    cs2writer.send(setSwitch(convertMMToLocId(6), true, true));
-    usleep(50000);
-    cs2writer.send(setSwitch(convertMMToLocId(6), true, false));
-    sleep(2);
-    cs2writer.send(setSwitch(convertMMToLocId(6), false, true));
-    usleep(50000);
-    cs2writer.send(setSwitch(convertMMToLocId(6), false, false));
-    sleep(2);
-    cs2writer.send(setSwitch(convertMMToLocId(6), true, true));
-    usleep(50000);
-    cs2writer.send(setSwitch(convertMMToLocId(6), true, false));
-    sleep(2);
-    cs2writer.send(setSwitch(convertMMToLocId(6), false, true));
-    usleep(50000);
-    cs2writer.send(setSwitch(convertMMToLocId(6), false, false));
- */
 }
 
