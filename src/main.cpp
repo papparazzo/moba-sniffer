@@ -113,11 +113,11 @@ int main(int argc, char** argv) {
         0
     };
 
-    std::string action{argv[1]};
-
     if(parseArguments(argc, argv, args)) {
         return EXIT_SUCCESS;
     }
+
+    std::string action{argv[1]};
 
     Handler handler;
 
