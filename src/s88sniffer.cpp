@@ -47,9 +47,11 @@ bool S88Sniffer::handleCanCommand(const CS2CanCommand &cmd) {
     attrset(COLOR_PAIR(0));
 
     if(cmd.getWordAt2() % 2) {
-        mvprintw(getRow(cmd.getWordAt2()), 0, "Block:  R %d/%d", cmd.getWordAt0(), cmd.getWordAt2());
+        mvprintw(getRow(cmd.getWordAt2()), 0, "                        ]");
+        mvprintw(getRow(cmd.getWordAt2()), 0, "Block:  R %d/%d [%d", cmd.getWordAt0(), cmd.getWordAt2(), cmd.getWordAt6());
     } else {
-        mvprintw(getRow(cmd.getWordAt2()), 16, " S %d/%d", cmd.getWordAt0(), cmd.getWordAt2());
+        mvprintw(getRow(cmd.getWordAt2()), 26, "                 ]");
+        mvprintw(getRow(cmd.getWordAt2()), 26, " S %d/%d [%d", cmd.getWordAt0(), cmd.getWordAt2(), cmd.getWordAt6());
     }
 
     if(cmd.data[4]) {
@@ -59,15 +61,15 @@ bool S88Sniffer::handleCanCommand(const CS2CanCommand &cmd) {
     }
 
     if(cmd.getWordAt2() % 2) {
-        mvprintw(getRow(cmd.getWordAt2()), 27, "XXXXXXXXX");
-        mvprintw(getRow(cmd.getWordAt2()), 41, "XXXXXXXXX");
+        mvprintw(getRow(cmd.getWordAt2()), 45, "XXXXXXXXX");
+        mvprintw(getRow(cmd.getWordAt2()), 59, "XXXXXXXXX");
     } else {
-        mvprintw(getRow(cmd.getWordAt2()), 37, "[X]");
+        mvprintw(getRow(cmd.getWordAt2()), 55, "[X]");
     }
 
 
     for(int i = 1; i < 35; ++i) {
-        mvprintw(i, 55, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        mvprintw(i, 85, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     }
 
     refresh();
