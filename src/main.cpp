@@ -83,7 +83,7 @@ bool parseArguments(int argc, char** argv, CmdLineArguments &args) {
             break;
         }
 
-        switch (c) {
+        switch(c) {
             case 'i':
                 args.localId = std::stoul(optarg);
                 break;
