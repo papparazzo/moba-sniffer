@@ -121,11 +121,16 @@ int main(int argc, char** argv) {
 
     Handler handler;
 
+    std::set<CanCommand> allowedCommands;
+    //if(cmd != "") {
+    //    allowedCommands.insert(getCommandFromString(cmd));
+    // }
+
     try {
         if(action == "s88") {
             handler.printFeedBackAction();
         } else if(action == "dump") {
-            handler.printCanCommands();
+            handler.printCanCommands(allowedCommands);
         } else if(action == "loklist") {
             handler.printLoklist();
         } else if(action == "lokstatus") {
