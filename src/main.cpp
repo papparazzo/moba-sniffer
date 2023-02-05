@@ -51,7 +51,7 @@ namespace {
 }
 
 void printHelp(const std::string &applName) {
-    std::cout << applName << " [s88|dump|loklist|lokstatus|lokomotive|function_on|function_off|speed]" << std::endl;
+    std::cout << applName << " [s88|dump|loklist|lokstatus|lokomotive|function_on|function_off|speed|switch_green|switch_red]" << std::endl;
     std::cout << std::endl;
     std::cout << "-i, --localid   locId" << std::endl;
     std::cout << "-s, --speed     speed" << std::endl;
@@ -143,6 +143,10 @@ int main(int argc, char** argv) {
             handler.setFunction(args.localId, args.function, false);
         } else if(action == "speed") {
             handler.setSpeed(args.localId, args.speed);
+        } else if(action == "switch_green") {
+            handler.setSwitch(args.localId, true);
+        } else if(action == "switch_red") {
+            handler.setSwitch(args.localId, false);
         } else {
             std::cout << "unknown command <" << action << "> given!" << std::endl;
         }
