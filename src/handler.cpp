@@ -77,8 +77,9 @@ void Handler::printLoklist() {
     }
 }
 
-void Handler::printCanCommands() {
-    PrintCanCommand printer{};
+void Handler::printCanCommands(const std::set<CanCommand> &allowedCommands) {
+
+    PrintCanCommand printer{allowedCommands};
 
     while(true) {
         printer.handleCanCommand(cs2reader.read());

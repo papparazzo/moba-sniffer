@@ -23,13 +23,16 @@
 #include "moba/cs2reader.h"
 #include "moba/cs2writer.h"
 
+#include <string>
+#include <set>
+
 class Handler {
 public:
     Handler();
     virtual ~Handler();
 
     void printLoklist();
-    void printCanCommands();
+    void printCanCommands(const std::set<CanCommand> &allowedCommands);
     void printFeedBackAction();
     void printConfigList(const std::string &name);
 
