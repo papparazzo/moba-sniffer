@@ -51,7 +51,7 @@ namespace {
 }
 
 void printHelp(const std::string &applName) {
-    std::cout << applName << " [s88|dump|loklist|lokstatus|lokomotive|function_on|function_off|speed|switch_green|switch_red]" << std::endl;
+    std::cout << applName << " [s88|dump|loklist|lokstat|loks|magstat|mags|function_on|function_off|speed|switch_green|switch_red]" << std::endl;
     std::cout << std::endl;
     std::cout << "-i, --localid   locId" << std::endl;
     std::cout << "-s, --speed     speed" << std::endl;
@@ -133,10 +133,14 @@ int main(int argc, char** argv) {
             handler.printCanCommands(allowedCommands);
         } else if(action == "loklist") {
             handler.printLoklist();
-        } else if(action == "lokstatus") {
-            handler.printConfigList("lokstatus");
-        } else if(action == "lokomotive") {
-            handler.printConfigList("lokomotive");
+        } else if(action == "lokstat") {
+            handler.printConfigList(Handler::LOKSTATUS);
+        } else if(action == "loks") {
+            handler.printConfigList(Handler::LOKLIST);
+        } else if(action == "magstat") {
+            handler.printConfigList(Handler::MAGSTATUS);
+        } else if(action == "mags") {
+            handler.printConfigList(Handler::MAGLIST);
         } else if(action == "function_on") {
             handler.setFunction(args.localId, args.function, true);
         } else if(action == "function_off") {
