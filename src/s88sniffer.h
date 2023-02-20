@@ -27,7 +27,7 @@ public:
     S88Sniffer();
     virtual ~S88Sniffer();
 
-    bool handleCanCommand(const CS2CanCommand &cmd);
+    HandlerReturn handleCanCommand(const CS2CanCommand &cmd);
 
 private:
     int getRow(std::uint16_t contact);

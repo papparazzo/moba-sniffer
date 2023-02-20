@@ -39,9 +39,9 @@ S88Sniffer::~S88Sniffer() {
 }
 
 
-bool S88Sniffer::handleCanCommand(const CS2CanCommand &cmd) {
+S88Sniffer::HandlerReturn S88Sniffer::handleCanCommand(const CS2CanCommand &cmd) {
     if(cmd.header[1] != static_cast<std::uint8_t>(CanCommand::CMD_S88_EVENT | 0x01)) {
-        return false;
+        return S88Sniffer::NOT_HANDLED;
     }
 
     attrset(COLOR_PAIR(0));
@@ -73,7 +73,7 @@ bool S88Sniffer::handleCanCommand(const CS2CanCommand &cmd) {
     }
 
     refresh();
-    return true;
+    return S88Sniffer::HANDLED_AND_FINISHED;
 }
 
 int S88Sniffer::getRow(std::uint16_t contact) {
