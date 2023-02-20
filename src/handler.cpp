@@ -38,19 +38,37 @@ Handler::Handler() {
 Handler::~Handler() {
 }
 
-void Handler::printConfigList(const std::string &name) {
+void Handler::printConfigList(ConfigListType type) {
+    std::string name;
+    switch(type) {
+        case LOKLIST:
+            name = "lokomotive";
+            cs2writer.send(getLokList());
+            break;
+
+        case LOKSTATUS:
+            name = "lokstatus";
+            cs2writer.send(getLokStat());
+            break;
+
+        case MAGLIST:
+            name = "magnetartikel";
+            cs2writer.send(getMagList());
+            break;
+
+        case MAGSTATUS:
+            name = "magnetartikel";
+            cs2writer.send(getMagStat());
+            break;
+    }
+
     auto dump = std::make_shared<ConfigDumpReader>(name);
 
     ConfigReader configReader{};
     configReader.addHandler(dump);
 
-    cs2writer.send(getLokStat());
-    cs2writer.send(getMagList());
-    cs2writer.send(getLokList());
-
-    while(true) {
-        configReader.handleCanCommand(cs2reader.read());
-    }
+    while(configReader.handleCanCommand(cs2reader.read()) != ConfigReader::HANDLED_AND_FINISHED)
+        ;
 }
 
 void Handler::printLoklist() {

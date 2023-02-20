@@ -28,13 +28,20 @@
 
 class Handler {
 public:
+    enum ConfigListType {
+        MAGLIST,
+        LOKLIST,
+        MAGSTATUS,
+        LOKSTATUS,
+    };
+
     Handler();
     virtual ~Handler();
 
     void printLoklist();
     void printCanCommands(const std::set<CanCommand> &allowedCommands);
     void printFeedBackAction();
-    void printConfigList(const std::string &name);
+    void printConfigList(ConfigListType type);
 
     void setFunction(std::uint32_t localId, std::uint8_t function, bool on);
     void setSpeed(std::uint32_t localId, std::uint16_t speed);
