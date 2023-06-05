@@ -1,17 +1,6 @@
 # http://www.gnu.org/software/automake
 
-Makefile.in
 Makefile
-
-# http://www.gnu.org/software/autoconf
-
-/autom4te.cache
-/aclocal.m4
-/compile
-/stamp-h1
-/config.log
-/.deps
-/m4/*
 
 # ide project files
 /nbproject/
@@ -27,7 +16,6 @@ Makefile
 /install-sh
 /ltmain.sh
 /missing
-/config.h.in
 
 # c / cpp staff
 
@@ -58,20 +46,25 @@ Makefile
 # Executables
 *.out
 *.app
-
-/libtool
-/config.status
-/configure.scan
-/autoscan.log
-/response.log
-/src/moba-sniffer
-/src/.deps/
 core
+moba-sniffer
 
 # misc
-
 .deps/
 .dirstamp
-
 *.o
 *~
+!.gitkeep
+
+# cmake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
