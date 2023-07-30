@@ -36,7 +36,7 @@ public:
     };
 
     Handler();
-    virtual ~Handler();
+    virtual ~Handler() = default;
 
     void printLoklist();
     void printCanCommands(const std::set<CanCommand> &allowedCommands);

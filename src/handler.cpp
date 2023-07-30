@@ -35,9 +35,6 @@ Handler::Handler() {
     cs2reader.connect();
 }
 
-Handler::~Handler() {
-}
-
 void Handler::printConfigList(ConfigListType type) {
     std::string name;
     switch(type) {
