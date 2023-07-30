@@ -39,8 +39,10 @@ public:
     virtual ~Handler() = default;
 
     void printLoklist();
-    void printCanCommands(const std::set<CanCommand> &allowedCommands);
-    void printFeedBackAction();
+
+    [[noreturn]] void printCanCommands(const std::set<CanCommand> &allowedCommands);
+
+    [[noreturn]] void printFeedBackAction();
     void printConfigList(ConfigListType type);
 
     void setFunction(std::uint32_t localId, std::uint8_t function, bool on);
