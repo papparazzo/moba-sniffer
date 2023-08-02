@@ -22,7 +22,7 @@
 
 #include "moba/cancommandhandlerinterface.h"
 
-class S88Sniffer: public CanCommadHandlerInterface {
+class S88Sniffer: public CanCommandHandlerInterface {
 public:
     S88Sniffer();
     virtual ~S88Sniffer();
