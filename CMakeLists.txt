@@ -1,9 +1,10 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.25)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 project(moba-sniffer VERSION 0.1.0)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 configure_file(config.h.in config.h)
 
@@ -26,7 +27,7 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/modules/lib-cs2interface/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
-link_directories("${PROJECT_SOURCE_DIR}/modules/lib-cs2interface")
+link_directories("${PROJECT_SOURCE_DIR}/modules/lib-lib-cs2interface")
 
 set(URLIB_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/modules/lib-cs2interface")
 
@@ -48,6 +49,7 @@ target_include_directories(moba-sniffer PUBLIC "${PROJECT_BINARY_DIR}")
 target_link_libraries(moba-sniffer mobacommon)
 target_link_libraries(moba-sniffer z)
 target_link_libraries(moba-sniffer ncurses)
-target_link_libraries(moba-sniffer ${CMAKE_SOURCE_DIR}/modules/lib-cs2interface/libmoba-cs2interface.a)
+target_link_libraries(moba-sniffer ${CMAKE_SOURCE_DIR}/modules/lib-cs2interface/libmoba-lib-cs2interface.a)
+
 
 include_directories(${CMAKE_SOURCE_DIR}/modules/lib-cs2interface/src)
