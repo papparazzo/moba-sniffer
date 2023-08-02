@@ -79,19 +79,21 @@ void Handler::printLoklist() {
     while(true) {
         configReader.handleCanCommand(cs2reader.read());
 
-        if(loklist->locomotives.size()) {
-            for(auto const &ent1 : loklist->locomotives) {
-                std::cout << "uid: " << ent1.first << ", name: " << ent1.second->name << std::endl;
-
-                //for(auto const &ent2 : ent1.second) {
-
-               // }
-            }
-            return;
+        if(loklist->locomotives.empty()) {
+            continue;
         }
+        for(auto const &ent1 : loklist->locomotives) {
+            std::cout << "uid: " << ent1.first << ", name: " << ent1.second->name << std::endl;
+
+            //for(auto const &ent2 : ent1.second) {
+
+           // }
+        }
+        return;
     }
 }
 
+[[noreturn]]
 void Handler::printCanCommands(const std::set<CanCommand> &allowedCommands) {
 
     PrintCanCommand printer{allowedCommands};
@@ -101,6 +103,7 @@ void Handler::printCanCommands(const std::set<CanCommand> &allowedCommands) {
     }
 }
 
+[[noreturn]]
 void Handler::printFeedBackAction() {
     S88Sniffer sniffer{};
 
