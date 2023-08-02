@@ -72,7 +72,7 @@ bool parseArguments(int argc, char** argv, CmdLineArguments &args) {
         {"function",  required_argument, 0,    'f'},
         {"help",      no_argument,       0,    'h'},
         {"version",   no_argument,       0,    'v'},
-        {NULL,        0,                 NULL,  0 }
+        {nullptr,     0,                 nullptr, 0 }
     };
 
     int optionIndex = 0;
