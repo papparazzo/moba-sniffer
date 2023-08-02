@@ -1,7 +1,5 @@
 # http://www.gnu.org/software/automake
 
-Makefile
-
 # ide project files
 /nbproject/
 /.vscode
@@ -53,7 +51,6 @@ moba-sniffer
 # misc
 .deps/
 .dirstamp
-*.o
 *~
 !.gitkeep
 
@@ -69,3 +66,4 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+/cmake-build-debug/
