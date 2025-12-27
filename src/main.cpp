@@ -26,8 +26,6 @@
 #include <string>
 
 #include <config.h>
-#include <map>
-#include <functional>
 #include <memory>
 #include <libgen.h>
 
@@ -67,11 +65,11 @@ bool parseArguments(int argc, char** argv, CmdLineArguments &args) {
     }
 
     static struct option longOptions[] = {
-        {"localid",   required_argument, 0,    'i'},
-        {"speed",     required_argument, 0,    's'},
-        {"function",  required_argument, 0,    'f'},
-        {"help",      no_argument,       0,    'h'},
-        {"version",   no_argument,       0,    'v'},
+        {"localid",   required_argument, nullptr,    'i'},
+        {"speed",     required_argument, nullptr,    's'},
+        {"function",  required_argument, nullptr,    'f'},
+        {"help",      no_argument,       nullptr,    'h'},
+        {"version",   no_argument,       nullptr,    'v'},
         {nullptr,     0,                 nullptr, 0 }
     };
 
@@ -108,7 +106,7 @@ bool parseArguments(int argc, char** argv, CmdLineArguments &args) {
     return false;
 }
 
-int main(int argc, char** argv) {
+int main(const int argc, char** argv) {
     CmdLineArguments args = {
         0
     };
