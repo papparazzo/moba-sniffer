@@ -38,9 +38,9 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/modules/lib-cs2interface)
 add_executable(
     moba-sniffer
 
-    src/handler.cpp
     src/main.cpp
-    src/s88sniffer.cpp
+    src/frmmain.cpp
+    src/commanddump.cpp
 )
 
 install(TARGETS moba-sniffer)
