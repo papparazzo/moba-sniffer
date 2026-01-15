@@ -27,7 +27,7 @@ CommandDump::CommandDump(): Box{Gtk::Orientation::VERTICAL} {
     m_HPaned.set_expand(true);
     append(m_HPaned);
 
-    initIncomming();
+    initIncoming();
     initOutgoing();
 }
 
@@ -52,7 +52,7 @@ void CommandDump::addCommand(const CS2CanCommand &cmd) {
     }
 }
 
-void CommandDump::initIncomming() {
+void CommandDump::initIncoming() {
     m_HPaned.set_end_child(m_InBox);
 
     m_InBox.append(m_ScrolledWindowIn);

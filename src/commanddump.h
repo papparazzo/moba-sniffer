@@ -87,7 +87,7 @@ private:
     Gtk::Box                     m_HBox_CheckRow{Gtk::Orientation::HORIZONTAL, 6};
     Gtk::CheckButton             m_Button_AutoCheckLast;
 
-    void initIncomming();
+    void initIncoming();
     void initOutgoing();
 
     void appendCommand(CanCommand id) const;
