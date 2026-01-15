@@ -90,6 +90,6 @@ private:
     void initIncoming();
     void initOutgoing();
 
-    void appendCommand(CanCommand id) const;
-    void sendCanCommand(CanCommand id);
+    void appendCommand(CanCommand cmd) const;
+    void sendCanCommand(CanCommand cmd);
 };
