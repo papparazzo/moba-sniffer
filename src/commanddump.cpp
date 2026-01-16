@@ -90,15 +90,15 @@ void CommandDump::initOutgoing() {
     m_OutBox.append(m_ScrolledWindowOut);
     m_OutBox.append(m_HBox_ControlBoxOut);
 
-    m_ScrolledWindowOut.set_child(m_TreeView_ActiveApps);
+    m_ScrolledWindowOut.set_child(m_TreeView_SendCommands);
     m_ScrolledWindowOut.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
     m_ScrolledWindowOut.set_expand();
 
-    m_refTreeModel_ActiveApps = Gtk::ListStore::create(m_Columns_ActiveApps);
-    m_TreeView_ActiveApps.set_model(m_refTreeModel_ActiveApps);
+    m_refTreeModel_SendCommands = Gtk::ListStore::create(m_Columns_SendCommands);
+    m_TreeView_SendCommands.set_model(m_refTreeModel_SendCommands);
 
-    m_TreeView_ActiveApps.append_column("Id",           m_Columns_ActiveApps.m_col_id);
-    m_TreeView_ActiveApps.append_column("Name",         m_Columns_ActiveApps.m_col_name);
+    m_TreeView_SendCommands.append_column("Id",    m_Columns_SendCommands.m_col_id);
+    m_TreeView_SendCommands.append_column("Name",  m_Columns_SendCommands.m_col_name);
 
     appendCommand(CanCommand::CMD_SYSTEM);
     appendCommand(CanCommand::CMD_LOCO_SPEED);
@@ -121,14 +121,14 @@ void CommandDump::initOutgoing() {
 }
 
 void CommandDump::appendCommand(CanCommand cmd) const {
-    Gtk::TreeModel::Row row = *m_refTreeModel_ActiveApps->append();
+    Gtk::TreeModel::Row row = *m_refTreeModel_SendCommands->append();
 
     std::stringstream ss;
     ss << std::uppercase << std::hex << std::setfill('0')
        << std::setw(2) << static_cast<unsigned int>(cmd);
 
-    row[m_Columns_ActiveApps.m_col_id  ] = ss.str();
-    row[m_Columns_ActiveApps.m_col_name] = getCommandName(cmd);
+    row[m_Columns_SendCommands.m_col_id  ] = ss.str();
+    row[m_Columns_SendCommands.m_col_name] = getCommandName(cmd);
 }
 
 void CommandDump::setCanCommand(CanCommand cmd) {

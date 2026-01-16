@@ -36,8 +36,8 @@ private:
     Gtk::Paned                   m_HPaned{Gtk::Orientation::HORIZONTAL};
 
     // Out-Box
-    struct ModelColumnsActiveApps final : Gtk::TreeModel::ColumnRecord {
-        ModelColumnsActiveApps() {
+    struct ModelColumnsSendCommands final : Gtk::TreeModel::ColumnRecord {
+        ModelColumnsSendCommands() {
             add(m_col_id);
             add(m_col_name);
         }
@@ -46,14 +46,14 @@ private:
         Gtk::TreeModelColumn<Glib::ustring> m_col_name;
     };
 
-    ModelColumnsActiveApps m_Columns_ActiveApps;
+    ModelColumnsSendCommands     m_Columns_SendCommands;
 
-    Glib::RefPtr<Gtk::ListStore> m_refTreeModel_ActiveApps;
+    Glib::RefPtr<Gtk::ListStore> m_refTreeModel_SendCommands;
 
     Gtk::Box                     m_OutBox{Gtk::Orientation::VERTICAL, 6};
 
     Gtk::ScrolledWindow          m_ScrolledWindowOut;
-    Gtk::TreeView                m_TreeView_ActiveApps;
+    Gtk::TreeView                m_TreeView_SendCommands;
 
     Gtk::Box                     m_HBox_ControlBoxOut{Gtk::Orientation::HORIZONTAL, 6};
     Gtk::Box                     m_HBox_ExpanderOut{Gtk::Orientation::HORIZONTAL, 6};
