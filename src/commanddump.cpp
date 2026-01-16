@@ -56,7 +56,7 @@ void CommandDump::initIncoming() {
     m_HPaned.set_end_child(m_InBox);
 
     m_InBox.append(m_ScrolledWindowIn);
-    m_InBox.append(m_HBox_CheckRow);
+    m_InBox.append(m_HBox_ControlBoxIn);
 
     m_ScrolledWindowIn.set_child(m_TreeView_Commands);
     m_ScrolledWindowIn.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
@@ -78,15 +78,17 @@ void CommandDump::initIncoming() {
 
     m_Button_AutoCheckLast.set_label("letzten Eintrag markieren");
 
-    m_HBox_Expander.set_hexpand();
+    m_HBox_ExpanderIn.set_hexpand();
 
-    m_HBox_CheckRow.append(m_HBox_Expander);
-    m_HBox_CheckRow.append(m_Button_AutoCheckLast);
-    m_HBox_CheckRow.append(m_ButtonBox_CommandDump);
+    m_HBox_ControlBoxIn.append(m_HBox_ExpanderIn);
+    m_HBox_ControlBoxIn.append(m_Button_AutoCheckLast);
+    m_HBox_ControlBoxIn.append(m_ButtonBox_CommandDump);
 }
 
 void CommandDump::initOutgoing() {
-    m_HPaned.set_start_child(m_ScrolledWindowOut);
+    m_HPaned.set_start_child(m_OutBox);
+    m_OutBox.append(m_ScrolledWindowOut);
+    m_OutBox.append(m_HBox_ControlBoxOut);
 
     m_ScrolledWindowOut.set_child(m_TreeView_ActiveApps);
     m_ScrolledWindowOut.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
@@ -106,6 +108,16 @@ void CommandDump::initOutgoing() {
     appendCommand(CanCommand::CMD_S88_POLLING);
     appendCommand(CanCommand::CMD_S88_EVENT);
     appendCommand(CanCommand::CMD_PING);
+
+    // Buttons
+    m_HBox_ExpanderOut.set_hexpand();
+
+    m_ButtonBox_CommandSend.append(m_Button_SendCommand);
+    m_ButtonBox_CommandSend.set_halign(Gtk::Align::END);
+    m_ButtonBox_CommandSend.set_sensitive(false);
+
+    m_HBox_ControlBoxOut.append(m_HBox_ExpanderOut);
+    m_HBox_ControlBoxOut.append(m_ButtonBox_CommandSend);
 }
 
 void CommandDump::appendCommand(CanCommand cmd) const {
@@ -119,16 +131,9 @@ void CommandDump::appendCommand(CanCommand cmd) const {
     row[m_Columns_ActiveApps.m_col_name] = getCommandName(cmd);
 }
 
-void CommandDump::sendCanCommand(CanCommand cmd) {
-    switch(cmd) {
-        case CanCommand::CMD_SYSTEM:
-        case CanCommand::CMD_LOCO_SPEED:
-        case CanCommand::CMD_LOCO_DIRECTION:
-        case CanCommand::CMD_LOCO_FUNCTION:
-        case CanCommand::CMD_SET_SWITCH:
-        case CanCommand::CMD_S88_POLLING:
-        case CanCommand::CMD_S88_EVENT:
-        case CanCommand::CMD_PING:
-            break;
-    }
+void CommandDump::setCanCommand(CanCommand cmd) {
+    m_CtrlCommand_SendCommand.setCommand(cmd);
+}
+
+void CommandDump::sendCanCommand() {
 }

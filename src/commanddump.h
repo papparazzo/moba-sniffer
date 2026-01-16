@@ -55,6 +55,14 @@ private:
     Gtk::ScrolledWindow          m_ScrolledWindowOut;
     Gtk::TreeView                m_TreeView_ActiveApps;
 
+    Gtk::Box                     m_HBox_ControlBoxOut{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box                     m_HBox_ExpanderOut{Gtk::Orientation::HORIZONTAL, 6};
+
+    Gtk::Box                     m_ButtonBox_CommandSend{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Button                  m_Button_SendCommand{"senden"};
+
+    CtrlCommand                  m_CtrlCommand_SendCommand;
+
     // In-Box
     struct CommandEntry final: Gtk::TreeModel::ColumnRecord {
         CommandEntry() {
@@ -79,17 +87,18 @@ private:
     Gtk::ScrolledWindow          m_ScrolledWindowIn;
     Gtk::TreeView                m_TreeView_Commands;
 
-    Gtk::Box                     m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box                     m_HBox_ControlBoxIn{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box                     m_HBox_ExpanderIn{Gtk::Orientation::HORIZONTAL, 6};
 
     Gtk::Box                     m_ButtonBox_CommandDump{Gtk::Orientation::HORIZONTAL, 6};
     Gtk::Button                  m_Button_ClearList{"Liste leeren"};
 
-    Gtk::Box                     m_HBox_CheckRow{Gtk::Orientation::HORIZONTAL, 6};
     Gtk::CheckButton             m_Button_AutoCheckLast;
 
     void initIncoming();
     void initOutgoing();
 
     void appendCommand(CanCommand cmd) const;
-    void sendCanCommand(CanCommand cmd);
+    void sendCanCommand();
+    void setCanCommand(CanCommand cmd);
 };
