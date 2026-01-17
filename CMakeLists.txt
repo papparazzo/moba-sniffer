@@ -40,7 +40,7 @@ add_executable(
 
     src/main.cpp
     src/frmmain.cpp
-    src/commanddump.cpp
+    src/ctrlincomingcommands.cpp
 )
 
 install(TARGETS moba-sniffer)

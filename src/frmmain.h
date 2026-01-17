@@ -21,7 +21,7 @@
 
 #include <gtkmm.h>
 
-#include "commanddump.h"
+#include "ctrlincomingcommands.h"
 #include "feedbackchecker.h"
 #include "moba/cs2reader.h"
 #include "moba/cs2writer.h"
@@ -29,7 +29,7 @@
 class FrmMain final: public Gtk::Window {
 
 public:
-    FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader);
+    FrmMain(CS2WriterPtr cs2writer, const CS2ReaderPtr &cs2reader);
 
     ~FrmMain() override = default;
 
@@ -53,14 +53,17 @@ private:
 
     Gtk::Box         m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
 
-    Gtk::Box         m_HButtonBox{Gtk::Orientation::HORIZONTAL, 6};
-    Gtk::Box         m_VBox{Gtk::Orientation::VERTICAL, 6};
-    Gtk::Box         m_HBox_Status{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box             m_HButtonBox{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box             m_VBox{Gtk::Orientation::VERTICAL, 6};
+    Gtk::Box             m_HBox_Status{Gtk::Orientation::HORIZONTAL, 6};
 
-    Gtk::Notebook    m_Notebook;
+    // main window
+    Gtk::Paned           m_HPaned{Gtk::Orientation::HORIZONTAL};
+    Gtk::Notebook        m_Notebook;
 
-    CommandDump      command_dump;
-    FeedbackChecker  feedback_checker;
+    // controls
+    CtrlIncomingCommands incoming_commands;
+    FeedbackChecker      feedback_checker;
 
     CS2WriterPtr cs2writer;
     CS2ReaderPtr cs2reader;

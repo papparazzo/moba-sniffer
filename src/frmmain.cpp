@@ -19,6 +19,8 @@
  */
 
 #include "frmmain.h"
+
+#include <utility>
 #include "config.h"
 #include "moba/cs2utils.h"
 
@@ -50,7 +52,7 @@ namespace {
     }
 }
 
-FrmMain::FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader): cs2writer{cs2writer}, cs2reader{cs2reader} {
+FrmMain::FrmMain(CS2WriterPtr cs2writer, const CS2ReaderPtr &cs2reader): cs2writer{std::move(cs2writer)}, cs2reader{cs2reader} {
     set_icon_name(PACKAGE_NAME);
     set_title(PACKAGE_NAME);
 
@@ -63,8 +65,13 @@ FrmMain::FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader): 
     m_VBox.set_margin(6);
     set_child(m_VBox);
 
-    m_VBox.append(m_Notebook);
-    m_Notebook.append_page(command_dump, "Command-Logger");
+    m_HPaned.set_expand(true);
+    m_VBox.append(m_HPaned);
+
+    m_HPaned.set_start_child(m_Notebook);
+    m_HPaned.set_end_child(incoming_commands);
+
+    //m_Notebook.append_page(command_dump, "Command-Logger");
     m_Notebook.append_page(feedback_checker, "Rückmeldungen");
 
     m_VBox.append(m_HBox_Status);
@@ -188,7 +195,7 @@ bool FrmMain::on_timeout(int) {
                 CS2CanCommand data;
                 cs2reader->read(data)
             ) {
-                command_dump.addCommand(data);
+                incoming_commands.addCommand(data);
                 cs2writer->send(setEmergencyStop());
             }
 
