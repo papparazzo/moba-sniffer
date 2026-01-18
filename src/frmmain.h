@@ -22,6 +22,7 @@
 #include <gtkmm.h>
 
 #include "ctrlincomingcommands.h"
+#include "ctrllokcontrol.h"
 #include "feedbackchecker.h"
 #include "moba/cs2reader.h"
 #include "moba/cs2writer.h"
@@ -29,7 +30,7 @@
 class FrmMain final: public Gtk::Window {
 
 public:
-    FrmMain(CS2WriterPtr cs2writer, const CS2ReaderPtr &cs2reader);
+    FrmMain(CS2WriterPtr cs2writer, CS2ReaderPtr cs2reader);
 
     ~FrmMain() override = default;
 
@@ -64,6 +65,7 @@ private:
     // controls
     CtrlIncomingCommands incoming_commands;
     FeedbackChecker      feedback_checker;
+    CtrlLokControl       ctrl_lokcontrol;
 
     CS2WriterPtr cs2writer;
     CS2ReaderPtr cs2reader;

@@ -52,7 +52,7 @@ namespace {
     }
 }
 
-FrmMain::FrmMain(CS2WriterPtr cs2writer, const CS2ReaderPtr &cs2reader): cs2writer{std::move(cs2writer)}, cs2reader{cs2reader} {
+FrmMain::FrmMain(CS2WriterPtr cs2writer, CS2ReaderPtr cs2reader): ctrl_lokcontrol{cs2writer}, cs2writer{std::move(cs2writer)}, cs2reader{std::move(cs2reader)} {
     set_icon_name(PACKAGE_NAME);
     set_title(PACKAGE_NAME);
 
@@ -73,6 +73,7 @@ FrmMain::FrmMain(CS2WriterPtr cs2writer, const CS2ReaderPtr &cs2reader): cs2writ
 
     //m_Notebook.append_page(command_dump, "Command-Logger");
     m_Notebook.append_page(feedback_checker, "Rückmeldungen");
+    m_Notebook.append_page(ctrl_lokcontrol, "Steuerung");
 
     m_VBox.append(m_HBox_Status);
 
