@@ -33,6 +33,15 @@ public:
 private:
     CS2WriterPtr cs2writer;
 
+    Box m_HBox_DropDown;
+    Box m_VBox_ExpanderIn{Gtk::Orientation::VERTICAL, 6};
+
+    Glib::RefPtr<Gtk::Adjustment> m_adjustment;
+
+    Gtk::Scrollbar m_Scrollbar;
+
+    Gtk::DropDown m_DropDown_Loco;
+    Gtk::Button   m_Button_Switch_Direction;
 };
 
 
