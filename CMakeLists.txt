@@ -40,6 +40,8 @@ add_executable(
 
     src/main.cpp
     src/frmmain.cpp
+    src/ctrllokcontrol.cpp
+    src/feedbackchecker.cpp
     src/ctrlincomingcommands.cpp
 )
 

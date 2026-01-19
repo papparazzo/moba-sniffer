@@ -22,7 +22,19 @@
 
 #include <gtkmm.h>
 
-class FeedbackChecker final: public Gtk::Box {
+#include "moba/cs2cancommand.h"
 
+class FeedbackChecker : public Gtk::Box {
+public:
+    FeedbackChecker();
+    ~FeedbackChecker() override = default;
+
+private:
+    void handleCanCommand(const CS2CanCommand &cmd);
+
+    void on_button_pressed(int index, int n_press, double x, double y);
+    void on_button_released(int index, int n_press, double x, double y);
+
+    std::array<Gtk::Label, 35> m_Label_S88;
+    std::vector<Glib::RefPtr<Gtk::GestureClick>> m_clicks;
 };
-
