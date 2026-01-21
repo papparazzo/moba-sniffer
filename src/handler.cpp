@@ -30,11 +30,6 @@
 
 #include <iostream>
 
-Handler::Handler() {
-    cs2writer.connect("192.168.178.38");
-    cs2reader.connect();
-}
-
 void Handler::printConfigList(ConfigListType type) {
     std::string name;
     switch(type) {
@@ -90,16 +85,6 @@ void Handler::printLoklist() {
            // }
         }
         return;
-    }
-}
-
-[[noreturn]]
-void Handler::printCanCommands(const std::set<CanCommand> &allowedCommands) {
-
-    PrintCanCommand printer{allowedCommands};
-
-    while(true) {
-        printer.handleCanCommand(cs2reader.read());
     }
 }
 

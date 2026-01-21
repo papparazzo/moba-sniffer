@@ -20,10 +20,8 @@
 
 #pragma once
 
-#include "moba/cs2reader.h"
 #include "moba/cs2writer.h"
 
-#include <string>
 #include <set>
 
 class Handler {
@@ -35,7 +33,6 @@ public:
         LOKSTATUS,
     };
 
-    Handler();
     virtual ~Handler() = default;
 
     void printLoklist();
@@ -48,9 +45,5 @@ public:
     void setFunction(std::uint32_t localId, std::uint8_t function, bool on);
     void setSpeed(std::uint32_t localId, std::uint16_t speed);
     void setSwitch(std::uint8_t addr, bool r);
-
-private:
-    CS2Writer cs2writer;
-    CS2Reader cs2reader;
 };
 
