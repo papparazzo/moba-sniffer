@@ -33,6 +33,23 @@ public:
 private:
     CS2WriterPtr cs2writer;
 
+    class ModelColumns final: public Glib::Object {
+    public:
+        unsigned int m_col_id;
+        Glib::ustring m_col_name;
+        bool m_col_active;
+
+        static Glib::RefPtr<ModelColumns> create(const unsigned int col_id, const Glib::ustring& col_name, bool col_active) {
+            return Glib::make_refptr_for_instance<ModelColumns>(new ModelColumns(col_id, col_name, col_active));
+        }
+
+    protected:
+        ModelColumns(const unsigned int col_id, const Glib::ustring& col_name, bool col_active)
+        : m_col_id(col_id), m_col_name(col_name), m_col_active(col_active)
+        {}
+    }; // ModelColumns
+
+
     Box m_HBox_DropDown;
     Box m_VBox_ExpanderIn{Gtk::Orientation::VERTICAL, 6};
 
@@ -42,6 +59,10 @@ private:
 
     Gtk::DropDown m_DropDown_Loco;
     Gtk::Button   m_Button_Switch_Direction;
+
+    // Functions
+    Gtk::ScrolledWindow m_ScrolledWindow;
+    Gtk::ColumnView m_ColumnView;
 };
 
 

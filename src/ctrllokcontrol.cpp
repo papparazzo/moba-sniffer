@@ -66,6 +66,13 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     append(m_Button_Switch_Direction);
     m_Button_Switch_Direction.set_margin(10);
 
+    append(m_ScrolledWindow);
+    m_ScrolledWindow.set_child(m_ColumnView);
+
+    // Only show the scrollbars when they are necessary:
+    m_ScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+    m_ScrolledWindow.set_expand();
+
     append(m_VBox_ExpanderIn);
     m_VBox_ExpanderIn.set_vexpand(true);
 }
