@@ -35,6 +35,9 @@ private:
     void on_button_pressed(int index, int n_press, double x, double y);
     void on_button_released(int index, int n_press, double x, double y);
 
+    Gtk::ScrolledWindow        m_ScrolledWindow;
+    Box                        m_VBox_LabelBox{Gtk::Orientation::VERTICAL, 6};
+
     std::array<Gtk::Label, 35> m_Label_S88;
     std::vector<Glib::RefPtr<Gtk::GestureClick>> m_clicks;
 };

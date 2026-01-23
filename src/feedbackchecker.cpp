@@ -25,6 +25,13 @@ FeedbackChecker::FeedbackChecker() : Box{Gtk::Orientation::VERTICAL, 6} {
     auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("label:hover { background-color: rgba(128, 128, 128, 0.1); }");
 
+    append(m_ScrolledWindow);
+    m_ScrolledWindow.set_child(m_VBox_LabelBox);
+
+    // Only show the scrollbars when they are necessary:
+    m_ScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+    m_ScrolledWindow.set_expand();
+
     for(int idx = 0; idx < m_Label_S88.size(); ++idx) {
         auto & label = m_Label_S88[idx];
         label.set_can_target(true);
@@ -56,7 +63,7 @@ FeedbackChecker::FeedbackChecker() : Box{Gtk::Orientation::VERTICAL, 6} {
            << "<span foreground=\"green\">XXXXXXXXX</span></span>";
 
         label.set_markup(ss.str());
-        append(label);
+        m_VBox_LabelBox.append(label);
     }
 }
 
