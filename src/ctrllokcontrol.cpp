@@ -20,23 +20,7 @@
 
 #include "ctrllokcontrol.h"
 
-namespace
-{
-struct PositionTypeStruct
-{
-  Gtk::PositionType position;
-  Glib::ustring text;
-};
-
-const std::array positionTypes =
-{
-  PositionTypeStruct{Gtk::PositionType::TOP,    "Top"},
-  PositionTypeStruct{Gtk::PositionType::BOTTOM, "Bottom"},
-  PositionTypeStruct{Gtk::PositionType::LEFT,   "Left"},
-  PositionTypeStruct{Gtk::PositionType::RIGHT,  "Right"}
-};
-
-}
+#include "moba/cs2utils.h"
 
 CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     Box{Gtk::Orientation::VERTICAL, 6},
@@ -44,7 +28,8 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     m_HBox_DropDown(Gtk::Orientation::HORIZONTAL, 10),
     m_adjustment( Gtk::Adjustment::create(0.0, 0.0, 1000.0, 1.0, 10.0, 10.0) ),
     m_Scrollbar(m_adjustment),
-    m_Button_Switch_Direction("Fahrtrichtungswechsel")
+    m_Button_Switch_Direction("Fahrtrichtungswechsel"),
+    m_Button_Halt("Lok halt")
 {
     set_expand(true);
 
@@ -65,6 +50,9 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
 
     append(m_Button_Switch_Direction);
     m_Button_Switch_Direction.set_margin(10);
+
+    append(m_Button_Halt);
+    m_Button_Halt.set_margin(10);
 
     append(m_ScrolledWindow);
     m_ScrolledWindow.set_child(m_ColumnView);

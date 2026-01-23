@@ -22,6 +22,8 @@
 
 #include <gtkmm.h>
 
+#include <utility>
+
 #include "moba/cs2writer.h"
 
 class CtrlLokControl final: public Gtk::Box {
@@ -39,13 +41,13 @@ private:
         Glib::ustring m_col_name;
         bool m_col_active;
 
-        static Glib::RefPtr<ModelColumns> create(const unsigned int col_id, const Glib::ustring& col_name, bool col_active) {
+        static Glib::RefPtr<ModelColumns> create(const unsigned int col_id, const Glib::ustring& col_name, const bool col_active) {
             return Glib::make_refptr_for_instance<ModelColumns>(new ModelColumns(col_id, col_name, col_active));
         }
 
     protected:
-        ModelColumns(const unsigned int col_id, const Glib::ustring& col_name, bool col_active)
-        : m_col_id(col_id), m_col_name(col_name), m_col_active(col_active)
+        ModelColumns(const unsigned int col_id, Glib::ustring  col_name, const bool col_active)
+        : m_col_id(col_id), m_col_name(std::move(col_name)), m_col_active(col_active)
         {}
     }; // ModelColumns
 
