@@ -52,7 +52,9 @@ namespace {
     }
 }
 
-FrmMain::FrmMain(CS2WriterPtr cs2writer, CS2ReaderPtr cs2reader): ctrl_lokcontrol{cs2writer}, cs2writer{std::move(cs2writer)}, cs2reader{std::move(cs2reader)} {
+FrmMain::FrmMain(CS2WriterPtr cs2writer, CS2ReaderPtr cs2reader): feedback_checker{std::move(cs2writer)}, ctrl_lokcontrol{cs2writer}, ctrl_control{cs2writer},
+                                                                  cs2writer{std::move(cs2writer)},
+                                                                  cs2reader{std::move(cs2reader)} {
     set_icon_name(PACKAGE_NAME);
     set_title(PACKAGE_NAME);
 

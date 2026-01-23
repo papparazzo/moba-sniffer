@@ -26,10 +26,12 @@
 
 class FeedbackChecker : public Gtk::Box {
 public:
-    FeedbackChecker();
+    explicit FeedbackChecker(CS2WriterPtr cs2writer);
     ~FeedbackChecker() override = default;
 
 private:
+    CS2WriterPtr cs2writer;
+
     void handleCanCommand(const CS2CanCommand &cmd);
 
     void on_button_pressed(int index, int n_press, double x, double y);
