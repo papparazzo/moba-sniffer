@@ -46,9 +46,11 @@ CtrlIncomingCommands::CtrlIncomingCommands(): Box{Gtk::Orientation::VERTICAL, 6}
     m_Button_ClearList.signal_clicked().connect(sigc::mem_fun(*this, &CtrlIncomingCommands::clearList));
 
     m_Button_AutoCheckLast.set_label("letzten Eintrag markieren");
+    m_Button_ShowPing.set_label("Ping anzeigen");
 
     m_HBox_ExpanderIn.set_hexpand();
 
+    m_HBox_ControlBoxIn.append(m_Button_ShowPing);
     m_HBox_ControlBoxIn.append(m_HBox_ExpanderIn);
     m_HBox_ControlBoxIn.append(m_Button_AutoCheckLast);
     m_HBox_ControlBoxIn.append(m_ButtonBox_CommandDump);
@@ -61,6 +63,10 @@ void CtrlIncomingCommands::clearList() {
 }
 
 void CtrlIncomingCommands::addCommand(const CS2CanCommand &cmd) {
+    if(!acceptCommand(cmd)) {
+        return;
+    }
+
     const auto iter = m_refTreeModel_Commands->append();
     Gtk::TreeModel::Row row = *iter;
     row[m_Columns_Commands.m_col_response  ] = cmd.header[1] & 0x01;
@@ -73,5 +79,17 @@ void CtrlIncomingCommands::addCommand(const CS2CanCommand &cmd) {
     if(m_Button_AutoCheckLast.get_active()) {
         const Glib::RefPtr<Gtk::TreeSelection> selection = m_TreeView_Commands.get_selection();
         selection->select(iter);
+        const Gtk::TreeModel::Path path = m_refTreeModel_Commands->get_path(iter);
+        m_TreeView_Commands.scroll_to_row(path);
+    }
+}
+
+bool CtrlIncomingCommands::acceptCommand(const CS2CanCommand &cmd) const {
+    switch(cmd.header[1]) {
+        case static_cast<uint8_t>(CanCommand::CMD_PING):
+            return m_Button_ShowPing.get_active();
+
+        default:
+            return true;
     }
 }

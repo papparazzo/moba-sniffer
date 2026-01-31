@@ -61,6 +61,9 @@ private:
     Gtk::Button                  m_Button_ClearList{"Liste leeren"};
     Gtk::CheckButton             m_Button_AutoCheckLast;
 
+    Gtk::CheckButton             m_Button_ShowPing;
+
     void clearList();
+    bool acceptCommand(const CS2CanCommand &cmd) const;
 };
 
