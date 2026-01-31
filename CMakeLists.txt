@@ -43,6 +43,7 @@ add_executable(
     src/ctrllokcontrol.cpp
     src/feedbackchecker.cpp
     src/ctrlincomingcommands.cpp
+    src/ctrlcontrol.cpp
 )
 
 install(TARGETS moba-sniffer)
