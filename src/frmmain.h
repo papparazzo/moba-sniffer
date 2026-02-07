@@ -21,6 +21,7 @@
 
 #include <gtkmm.h>
 
+#include "ctrlcontrol.h"
 #include "ctrlincomingcommands.h"
 #include "ctrllokcontrol.h"
 #include "feedbackchecker.h"
@@ -30,7 +31,7 @@
 class FrmMain final: public Gtk::Window {
 
 public:
-    FrmMain(CS2WriterPtr cs2writer, CS2ReaderPtr cs2reader);
+    FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader);
 
     ~FrmMain() override = default;
 
