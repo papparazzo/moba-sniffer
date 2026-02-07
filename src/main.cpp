@@ -76,7 +76,7 @@ bool parseArguments(const int argc, char *argv[], const moba::AppData &appData, 
     int optionIndex = 0;
 
     while(true) {
-        const int c = getopt_long(argc, argv, "hv", longOptions, &optionIndex);
+        const int c = getopt_long(argc, argv, "hvc:i:o:", longOptions, &optionIndex);
         if(c == -1) {
             break;
         }
@@ -124,6 +124,6 @@ int main(int argc, char *argv[]) {
     const auto cs2WriterPtr = std::make_shared<CS2Writer>(cs2ContactData.host, cs2ContactData.portIn);
     const auto cs2ReaderPtr = std::make_shared<CS2Reader>(cs2ContactData.host, cs2ContactData.portOut, false);
 
-    auto app = Gtk::Application::create("org.moba.sniffer");
-    return app->make_window_and_run<FrmMain>(--argc, argv, cs2WriterPtr, cs2ReaderPtr);
+    const auto app = Gtk::Application::create("org.moba.sniffer", Gio::Application::Flags::NON_UNIQUE);
+    return app->make_window_and_run<FrmMain>(0, nullptr, cs2WriterPtr, cs2ReaderPtr);
 }
