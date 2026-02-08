@@ -51,6 +51,7 @@ private:
         {}
     }; // ModelColumns
 
+    Glib::RefPtr<Gio::ListStore<ModelColumns>> m_ListStore;
 
     Box m_HBox_DropDown;
     Box m_VBox_ExpanderIn{Gtk::Orientation::VERTICAL, 6};
@@ -61,10 +62,22 @@ private:
 
     Gtk::DropDown m_DropDown_Loco;
     Gtk::Button   m_Button_Switch_Direction;
+    Gtk::Button   m_Button_Halt;
 
     // Functions
     Gtk::ScrolledWindow m_ScrolledWindow;
     Gtk::ColumnView m_ColumnView;
+
+    const std::uint32_t currentLocalId{0};
+
+    void on_setup_label(const Glib::RefPtr<Gtk::ListItem>& list_item, Gtk::Align halign);
+    void on_setup_checkbox(const Glib::RefPtr<Gtk::ListItem>& list_item);
+    void on_bind_id(const Glib::RefPtr<Gtk::ListItem>& list_item);
+    void on_bind_name(const Glib::RefPtr<Gtk::ListItem>& list_item);
+    void on_bind_active(const Glib::RefPtr<Gtk::ListItem>& list_item);
+
+    void on_halt_click();
+    void on_switch_direction_click();
 };
 
 

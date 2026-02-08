@@ -63,6 +63,105 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
 
     append(m_VBox_ExpanderIn);
     m_VBox_ExpanderIn.set_vexpand(true);
+
+
+
+    // Create the List model:
+    m_ListStore = Gio::ListStore<ModelColumns>::create();
+    m_ListStore->append(ModelColumns::create(1, "Frontlicht", true));
+    m_ListStore->append(ModelColumns::create(2, "Pantograph", false));
+    m_ListStore->append(ModelColumns::create(3, "Sound", false));
+
+    // Set list model and selection model.
+    auto selection_model = Gtk::SingleSelection::create(m_ListStore);
+    selection_model->set_autoselect(false);
+    selection_model->set_can_unselect(true);
+    m_ColumnView.set_model(selection_model);
+    m_ColumnView.add_css_class("data-table"); // high density table
+
+    // Make the columns reorderable.
+    // This is not necessary, but it's nice to show the feature.
+    m_ColumnView.set_reorderable(true);
+
+
+    // Add the ColumnView's columns:
+
+    // Id column
+    auto factory = Gtk::SignalListItemFactory::create();
+    factory->signal_setup().connect(sigc::bind(sigc::mem_fun(*this, &CtrlLokControl::on_setup_label), Gtk::Align::END));
+    factory->signal_bind().connect(sigc::mem_fun(*this, &CtrlLokControl::on_bind_id));
+    auto column = Gtk::ColumnViewColumn::create("#", factory);
+    m_ColumnView.append_column(column);
+
+    // Name column
+    factory = Gtk::SignalListItemFactory::create();
+    factory->signal_setup().connect(sigc::bind(sigc::mem_fun(*this, &CtrlLokControl::on_setup_label), Gtk::Align::START));
+    factory->signal_bind().connect(sigc::mem_fun(*this, &CtrlLokControl::on_bind_name));
+    column = Gtk::ColumnViewColumn::create("Funktion", factory);
+    m_ColumnView.append_column(column);
+
+    // Percentage column
+    factory = Gtk::SignalListItemFactory::create();
+    factory->signal_setup().connect(sigc::mem_fun(*this, &CtrlLokControl::on_setup_checkbox));
+    factory->signal_bind().connect(sigc::mem_fun(*this, &CtrlLokControl::on_bind_active));
+    column = Gtk::ColumnViewColumn::create("an / aus", factory);
+    m_ColumnView.append_column(column);
 }
+
+void CtrlLokControl::on_setup_label(const Glib::RefPtr<Gtk::ListItem>& list_item, Gtk::Align halign) {
+    list_item->set_child(*Gtk::make_managed<Gtk::Label>("", halign));
+}
+
+void CtrlLokControl::on_setup_checkbox(const Glib::RefPtr<Gtk::ListItem>& list_item) {
+    list_item->set_child(*Gtk::make_managed<Gtk::CheckButton>());
+}
+
+void CtrlLokControl::on_bind_id(const Glib::RefPtr<Gtk::ListItem>& list_item) {
+    auto col = std::dynamic_pointer_cast<ModelColumns>(list_item->get_item());
+    if(!col) {
+        return;
+    }
+
+    auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
+    if(!label) {
+        return;
+    }
+
+    label->set_text(Glib::ustring::format(col->m_col_id));
+}
+
+void CtrlLokControl::on_bind_name(const Glib::RefPtr<Gtk::ListItem>& list_item) {
+    auto col = std::dynamic_pointer_cast<ModelColumns>(list_item->get_item());
+    if(!col) {
+        return;
+    }
+
+    auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
+    if(!label) {
+        return;
+    }
+
+    label->set_text(col->m_col_name);
+}
+
+void CtrlLokControl::on_bind_active(const Glib::RefPtr<Gtk::ListItem>& list_item)
+{
+  auto col = std::dynamic_pointer_cast<ModelColumns>(list_item->get_item());
+  if (!col)
+    return;
+  auto progressbar = dynamic_cast<Gtk::CheckButton*>(list_item->get_child());
+  if (!progressbar)
+    return;
+  progressbar->set_active(col->m_col_active );
+}
+
+void CtrlLokControl::on_halt_click() {
+    cs2writer->send(setLocoHalt(currentLocalId));
+}
+
+void CtrlLokControl::on_switch_direction_click() {
+    cs2writer->send(setLocDirection(currentLocalId, 3));
+}
+
 
 
