@@ -67,6 +67,8 @@ private:
     CtrlIncomingCommands incoming_commands;
     FeedbackChecker      feedback_checker;
     CtrlLokControl       ctrl_lokcontrol;
+    CtrlControl          ctrl_control;
+    CtrlMonitor          ctrl_monitor;
 
     CS2WriterPtr cs2writer;
     CS2ReaderPtr cs2reader;

@@ -72,9 +72,12 @@ feedback_checker{cs2writer}, ctrl_lokcontrol{cs2writer}, ctrl_control{cs2writer}
     m_HPaned.set_start_child(m_Notebook);
     m_HPaned.set_end_child(incoming_commands);
 
-    //m_Notebook.append_page(command_dump, "Command-Logger");
+    // Setup notebook...
+    m_Notebook.append_page(ctrl_control, "Steuerung");
     m_Notebook.append_page(feedback_checker, "Rückmeldungen");
-    m_Notebook.append_page(ctrl_lokcontrol, "Steuerung");
+    m_Notebook.append_page(ctrl_lokcontrol, "Lokomotiven");
+    m_Notebook.append_page(ctrl_monitor, "Monitor");
+    //m_Notebook.append_page(ctrl_lokcontrol, "Weichen");
 
     m_VBox.append(m_HBox_Status);
 
