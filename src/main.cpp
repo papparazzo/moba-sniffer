@@ -54,17 +54,21 @@ struct CS2ContactData {
     FrmMain::OperationModus operation_modus;
 };
 
-void printHelp(const std::string &appName, CS2ContactData &cs2ContactData) {
+void printHelp(const std::string &appName, const CS2ContactData &cs2ContactData) {
     std::cout << appName << std::endl;
     std::cout << std::endl;
-    std::cout << "-h, --help          shows this help" << std::endl;
-    std::cout << "-v, --version       shows version-info" << std::endl;
-    std::cout << "-c, --cs2-host      host of the CentralStation (default: " << cs2ContactData.host << ")" << std::endl;
-    std::cout << "-i, --cs2-port-in   port of the CentralStation for incoming messages (default: " << cs2ContactData.portIn << ")" << std::endl;
-    std::cout << "-o, --cs2-port-out  port of the CentralStation for outgoing messages (default: " << cs2ContactData.portOut << ")" << std::endl;
+    std::cout << "-c, --cs2-host=HOST         HOST of the CentralStation (default: " << cs2ContactData.host << ")" << std::endl;
+    std::cout << "-h, --help                  shows this help" << std::endl;
+    std::cout << "-i, --cs2-port-in=PORT      PORT of the CentralStation for incoming messages (default: " << cs2ContactData.port_in << ")" << std::endl;
+    std::cout << "-m, --operation-modus=MODUS operation modus with MODUS (default: " << cs2ContactData.operation_modus << ")" << std::endl;
+    std::cout << "                              - PROXY (" << FrmMain::OperationModus::PROXY << ")" << std::endl;
+    std::cout << "                              - SNIFFER (" << FrmMain::OperationModus::SNIFFER << ")" << std::endl;
+    std::cout << "                              - SIMULATOR (" << FrmMain::OperationModus::SIMULATOR << ")" << std::endl;
+    std::cout << "-o, --cs2-port-out=PORT     PORT of the CentralStation for outgoing messages (default: " << cs2ContactData.port_out << ")" << std::endl;
+    std::cout << "-v, --version               shows version-info" << std::endl;
 }
 
-bool parseArguments(const int argc, char *argv[], const moba::AppData &appData, CS2ContactData &cs2ContactData) {
+bool parseArguments(const int argc, char *argv[], const moba::AppData &app_data, CS2ContactData &cs2ContactData) {
     static option longOptions[] = {
         {"cs2-host",        required_argument, nullptr, 'c'},
         {"cs2-port-in",     required_argument, nullptr, 'i'},
@@ -120,7 +124,8 @@ int main(int argc, char *argv[]) {
     CS2ContactData cs2ContactData = {
         "127.0.0.1",
         CS2Reader::DEFAULT_PORT,
-        CS2Writer::DEFAULT_PORT
+        CS2Writer::DEFAULT_PORT,
+        FrmMain::OperationModus::SIMULATOR
     };
 
     if(parseArguments(argc, argv, appData, cs2ContactData)) {
