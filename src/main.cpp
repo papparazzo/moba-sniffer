@@ -49,8 +49,9 @@ namespace {
 
 struct CS2ContactData {
     std::string host;
-    int portIn;
-    int portOut;
+    int port_in;
+    int port_out;
+    FrmMain::OperationModus operation_modus;
 };
 
 void printHelp(const std::string &appName, CS2ContactData &cs2ContactData) {
@@ -82,25 +83,29 @@ bool parseArguments(const int argc, char *argv[], const moba::AppData &appData, 
         }
 
         switch(c) {
-            case 'h':
-                printHelp(basename(argv[0]), cs2ContactData);
-                return true;
-
-            case 'v':
-                moba::printAppData(appData);
-                return true;
-
             case 'c':
                 cs2ContactData.host = optarg;
                 break;
 
+            case 'h':
+                printHelp(basename(argv[0]), cs2ContactData);
+                return true;
+
             case 'i':
-                cs2ContactData.portIn = std::stoi(optarg);
+                cs2ContactData.port_in = std::stoi(optarg);
+                break;
+
+            case 'm':
+                cs2ContactData.operation_modus = static_cast<FrmMain::OperationModus>(std::stoi(optarg));
                 break;
 
             case 'o':
-                cs2ContactData.portOut = std::stoi(optarg);
+                cs2ContactData.port_out = std::stoi(optarg);
                 break;
+
+            case 'v':
+                moba::printAppData(app_data);
+                return true;
 
             default:
                 std::cerr << "Try '" << basename(argv[0]) << " --help' for more information." << std::endl;
