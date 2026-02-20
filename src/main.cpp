@@ -66,18 +66,19 @@ void printHelp(const std::string &appName, CS2ContactData &cs2ContactData) {
 
 bool parseArguments(const int argc, char *argv[], const moba::AppData &appData, CS2ContactData &cs2ContactData) {
     static option longOptions[] = {
-        {"cs2-host",     required_argument, nullptr, 'c'},
-        {"cs2-port-in",  required_argument, nullptr, 'i'},
-        {"cs2-port-out", required_argument, nullptr, 'o'},
-        {"help",         no_argument,       nullptr, 'h'},
-        {"version",      no_argument,       nullptr, 'v'},
-        {nullptr,        0,                 nullptr, 0 }
+        {"cs2-host",        required_argument, nullptr, 'c'},
+        {"cs2-port-in",     required_argument, nullptr, 'i'},
+        {"cs2-port-out",    required_argument, nullptr, 'o'},
+        {"help",            no_argument,       nullptr, 'h'},
+        {"operation-modus", required_argument, nullptr, 'm'},
+        {"version",         no_argument,       nullptr, 'v'},
+        {nullptr,           0,                 nullptr, 0 }
     };
 
     int optionIndex = 0;
 
     while(true) {
-        const int c = getopt_long(argc, argv, "hvc:i:o:", longOptions, &optionIndex);
+        const int c = getopt_long(argc, argv, "c:hi:m:o:v", longOptions, &optionIndex);
         if(c == -1) {
             break;
         }
