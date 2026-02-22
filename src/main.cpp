@@ -132,8 +132,8 @@ int main(int argc, char *argv[]) {
         return EXIT_SUCCESS;
     }
 
-    const auto cs2WriterPtr = std::make_shared<CS2Writer>(cs2ContactData.host, cs2ContactData.portIn);
-    const auto cs2ReaderPtr = std::make_shared<CS2Reader>(cs2ContactData.host, cs2ContactData.portOut, false);
+    const auto cs2WriterPtr = std::make_shared<CS2Writer>(cs2ContactData.host, cs2ContactData.port_in);
+    const auto cs2ReaderPtr = std::make_shared<CS2Reader>(cs2ContactData.host, cs2ContactData.port_out, false);
 
     const auto app = Gtk::Application::create("org.moba.sniffer", Gio::Application::Flags::NON_UNIQUE);
     return app->make_window_and_run<FrmMain>(0, nullptr, cs2WriterPtr, cs2ReaderPtr);
