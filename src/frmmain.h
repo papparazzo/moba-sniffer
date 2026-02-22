@@ -45,9 +45,9 @@ private:
     bool on_timeout_status(int);
 
     // about
-    Gtk::Button      m_Button_About{"About..."};
-    Gtk::Button      m_Button_Emergency{"Nothalt"};
-    Gtk::AboutDialog m_Dialog;
+    Gtk::Button          m_Button_About{"About..."};
+    Gtk::Button          m_Button_Emergency{"Nothalt"};
+    Gtk::AboutDialog     m_Dialog;
 
     // status label
     Gtk::Label       m_Label_Connectivity_HW{" \xe2\x96\x84"};
