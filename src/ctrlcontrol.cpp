@@ -41,16 +41,16 @@ CtrlControl::CtrlControl(CS2WriterPtr cs2writer):  Box{Gtk::Orientation::VERTICA
 }
 
 void CtrlControl::on_button_ping_clicked() const {
-    cs2writer->send(ping());
+    cs2writer->trySend(ping());
 }
 
 void CtrlControl::on_button_pong_clicked() const {
-    cs2writer->send(pong());
+    cs2writer->trySend(pong());
 }
 
 void CtrlControl::handleCanCommand(const CS2CanCommand &cmd) const {
     if(cmd.header[1] != static_cast<uint8_t>(CanCommand::CMD_PING) || !m_Button_AutoRespond.get_active()) {
         return;
     }
-    cs2writer->send(pong());
+    cs2writer->trySend(pong());
 }
