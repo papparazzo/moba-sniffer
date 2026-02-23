@@ -38,6 +38,17 @@ CtrlControl::CtrlControl(CS2WriterPtr cs2writer):  Box{Gtk::Orientation::VERTICA
     
     m_Button_Ping.signal_clicked().connect(sigc::mem_fun(*this, &CtrlControl::on_button_ping_clicked));
     m_Button_Pong.signal_clicked().connect(sigc::mem_fun(*this, &CtrlControl::on_button_pong_clicked));
+
+    m_Button_Start.signal_clicked().connect(sigc::mem_fun(*this, &CtrlControl::on_button_start_clicked));
+    m_Button_Stop.signal_clicked().connect(sigc::mem_fun(*this, &CtrlControl::on_button_stop_clicked));
+}
+
+void CtrlControl::on_button_start_clicked() const {
+    cs2writer->trySend(setEmergencyStopClearing());
+}
+
+void CtrlControl::on_button_stop_clicked() const {
+    cs2writer->trySend(setEmergencyStop());
 }
 
 void CtrlControl::on_button_ping_clicked() const {

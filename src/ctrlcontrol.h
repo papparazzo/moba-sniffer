@@ -43,5 +43,8 @@ private:
 
     void on_button_ping_clicked() const;
     void on_button_pong_clicked() const;
+
+    void on_button_start_clicked() const;
+    void on_button_stop_clicked() const;
 };
 
