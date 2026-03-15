@@ -23,16 +23,23 @@
 #include "moba/cs2utils.h"
 
 CtrlControl::CtrlControl(CS2WriterPtr cs2writer):  Box{Gtk::Orientation::VERTICAL, 6}, cs2writer {std::move(cs2writer)} {
-    append(m_HButtonBox);
-    m_HButtonBox.append(m_Button_Ping);
-    m_HButtonBox.append(m_Button_Pong);
-    m_HButtonBox.set_margin(10);
+    append(m_HButtonBox1);
 
-    m_Button_AutoRespond.set_label("autom. antworten");
-    m_Button_AutoRespond.set_active(true);
-    m_Button_AutoRespond.set_margin(10);
+    m_CheckButton_AutoRespond.set_label("autom. antworten");
+    m_CheckButton_AutoRespond.set_active(true);
+   // m_CheckButton_AutoRespond.set_margin(10);
 
-    append(m_Button_AutoRespond);
+    m_HButtonBox1.append(m_Button_Ping);
+    m_HButtonBox1.append(m_Button_Pong);
+    m_HButtonBox1.append(m_CheckButton_AutoRespond);
+    m_HButtonBox1.set_margin(10);
+
+    append(m_HButtonBox2);
+
+    m_HButtonBox2.append(m_Button_Start);
+    m_HButtonBox2.append(m_Button_Stop);
+    m_HButtonBox2.set_margin(10);
+
     m_HBox_Expander.set_hexpand(true);
     append(m_HBox_Expander);
     
@@ -60,7 +67,7 @@ void CtrlControl::on_button_pong_clicked() const {
 }
 
 void CtrlControl::handleCanCommand(const CS2CanCommand &cmd) const {
-    if(cmd.header[1] != static_cast<uint8_t>(CanCommand::CMD_PING) || !m_Button_AutoRespond.get_active()) {
+    if(cmd.header[1] != static_cast<uint8_t>(CanCommand::CMD_PING) || !m_CheckButton_AutoRespond.get_active()) {
         return;
     }
     cs2writer->trySend(pong());

@@ -35,11 +35,17 @@ public:
 private:
     CS2WriterPtr cs2writer;
 
-    Box              m_HButtonBox{Gtk::Orientation::HORIZONTAL, 6};
+    Box              m_HButtonBox1{Gtk::Orientation::HORIZONTAL, 6};
+    Box              m_HButtonBox2{Gtk::Orientation::HORIZONTAL, 6};
     Box              m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
+
     Gtk::Button      m_Button_Ping{"Ping"};
     Gtk::Button      m_Button_Pong{"Pong"};
-    Gtk::CheckButton m_Button_AutoRespond;
+
+    Gtk::Button      m_Button_Start{"Start (Nothalt Freigabe)"};
+    Gtk::Button      m_Button_Stop{"Stop (Nothalt)"};
+
+    Gtk::CheckButton m_CheckButton_AutoRespond;
 
     void on_button_ping_clicked() const;
     void on_button_pong_clicked() const;
