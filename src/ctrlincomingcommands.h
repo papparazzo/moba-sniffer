@@ -30,7 +30,7 @@ public:
 
     ~CtrlIncomingCommands() override = default;
 
-    void addCommand(const CS2CanCommand &cmd);
+    void handleCanCommand(const CS2CanCommand &cmd);
 
 private:
     struct CommandEntry final: Gtk::TreeModel::ColumnRecord {

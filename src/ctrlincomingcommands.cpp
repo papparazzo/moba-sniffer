@@ -62,7 +62,7 @@ void CtrlIncomingCommands::clearList() {
     m_ButtonBox_CommandDump.set_sensitive(false);
 }
 
-void CtrlIncomingCommands::addCommand(const CS2CanCommand &cmd) {
+void CtrlIncomingCommands::handleCanCommand(const CS2CanCommand &cmd) {
     if(!acceptCommand(cmd)) {
         return;
     }
