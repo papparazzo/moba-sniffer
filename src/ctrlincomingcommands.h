@@ -33,6 +33,33 @@ public:
     void handleCanCommand(const CS2CanCommand &cmd);
 
 private:
+    class CommandsColumns final: public Glib::Object {
+    public:
+        unsigned int m_col_id;
+        Glib::ustring m_col_commandName;
+        bool m_col_active;
+
+        static Glib::RefPtr<CommandsColumns> create(
+            const unsigned int col_id,
+            const Glib::ustring& m_col_commandName,
+            const bool col_active
+        ) {
+            return Glib::make_refptr_for_instance<CommandsColumns>(new CommandsColumns(col_id, m_col_commandName, col_active));
+        }
+
+    protected:
+        CommandsColumns(const unsigned int col_id, Glib::ustring  m_col_commandName, const bool col_active)
+        : m_col_id(col_id), m_col_commandName(std::move(m_col_commandName)), m_col_active(col_active)
+        {}
+    }; // CommandsColumns
+
+    Glib::RefPtr<Gio::ListStore<CommandsColumns>> m_ListStore;
+
+    Gtk::ScrolledWindow m_ScrolledWindow;
+    Gtk::ColumnView m_ColumnView;
+
+   // Box m_HBox_DropDown;
+
     struct CommandEntry final: Gtk::TreeModel::ColumnRecord {
         CommandEntry() {
             add(m_col_response);
