@@ -23,7 +23,7 @@
 #include <utility>
 
 FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation::VERTICAL, 6}, cs2writer{std::move(cs2writer)} {
-    auto css_provider = Gtk::CssProvider::create();
+    const auto css_provider = Gtk::CssProvider::create();
     css_provider->load_from_data("label:hover { background-color: rgba(128, 128, 128, 0.1); }");
 
     append(m_ScrolledWindow);
