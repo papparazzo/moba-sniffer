@@ -69,6 +69,7 @@ private:
     CtrlLokControl       ctrl_lokcontrol;
     CtrlControl          ctrl_control;
     CtrlMonitor          ctrl_monitor;
+    CtrlConfig           ctrl_config;
 
     CS2WriterPtr cs2writer;
     CS2ReaderPtr cs2reader;
