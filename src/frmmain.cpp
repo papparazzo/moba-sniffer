@@ -77,6 +77,7 @@ feedback_checker{cs2writer}, ctrl_lokcontrol{cs2writer}, ctrl_control{cs2writer}
     m_Notebook.append_page(feedback_checker, "Rückmeldungen");
     m_Notebook.append_page(ctrl_lokcontrol, "Lokomotiven");
     m_Notebook.append_page(ctrl_monitor, "Monitor");
+    m_Notebook.append_page(ctrl_config, "Konfiguration");
     //m_Notebook.append_page(ctrl_lokcontrol, "Weichen");
 
     m_VBox.append(m_HBox_Status);
