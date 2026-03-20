@@ -35,10 +35,8 @@ public:
 private:
     CS2WriterPtr cs2writer;
 
-    void handleCanCommand(const CS2CanCommand &cmd);
-
-    void on_button_pressed(int index, int n_press, double x, double y);
-    void on_button_released(int index, int n_press, double x, double y);
+    void on_button_circuit(std::uint16_t module, std::uint16_t idx);
+    void on_button_contact(std::uint16_t module, std::uint16_t idx, bool state);
 
     Gtk::ScrolledWindow        m_ScrolledWindow;
     Box                        m_VBox_LabelBox{Gtk::Orientation::VERTICAL, 6};
