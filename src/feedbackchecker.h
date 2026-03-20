@@ -23,11 +23,14 @@
 #include <gtkmm.h>
 
 #include "moba/cs2cancommand.h"
+#include "moba/cs2writer.h"
 
 class FeedbackChecker final: public Gtk::Box {
 public:
     explicit FeedbackChecker(CS2WriterPtr cs2writer);
     ~FeedbackChecker() override = default;
+
+    void handleCanCommand(const CS2CanCommand &cmd);
 
 private:
     CS2WriterPtr cs2writer;
