@@ -21,6 +21,9 @@
 
 #include <iostream>
 #include <utility>
+#include <format>
+
+#include "moba/cs2utils.h"
 
 FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation::VERTICAL, 6}, cs2writer{std::move(cs2writer)} {
     const auto css_provider = Gtk::CssProvider::create();
