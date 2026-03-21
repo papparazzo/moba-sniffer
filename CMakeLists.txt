@@ -25,6 +25,8 @@ add_executable(
     src/feedbackchecker.cpp
     src/ctrlincomingcommands.cpp
     src/ctrlcontrol.cpp
+    src/ctrlmonitor.cpp
+    src/ctrlconfig.cpp
 )
 
 install(TARGETS moba-sniffer)
