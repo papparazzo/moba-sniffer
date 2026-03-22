@@ -2,10 +2,9 @@
 Version=1.0
 Type=Application
 Name=MoBa-Sniffer
-Exec=moba-sniffer
+Exec=/usr/local/bin/moba-sniffer
 Comment=Sniffer
 Icon=moba-sniffer
-Terminal=0
-Categories=System-manager
-Encoding=UTF-8
-
+Terminal=false
+Categories=System
+StartupWMClass=org.moba.sniffer
