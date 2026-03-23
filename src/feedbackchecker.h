@@ -41,6 +41,13 @@ private:
     Gtk::ScrolledWindow        m_ScrolledWindow;
     Box                        m_VBox_LabelBox{Gtk::Orientation::VERTICAL, 6};
 
-    std::array<Gtk::Label, 35> m_Label_S88;
+    std::array<Gtk::Label, MAX_CONTACTS> m_Label_S88_Description;
+    std::array<Gtk::Label, MAX_CONTACTS> m_Label_S88_Contact;
+    std::array<Gtk::Label, MAX_CONTACTS> m_Label_S88_Circuit;
+
+    std::array<Box, MAX_CONTACTS>        m_VBox_LabelRow;
+
+    std::array<bool, MAX_CONTACTS>       m_ContactState{};
+
     std::vector<Glib::RefPtr<Gtk::GestureClick>> m_clicks;
 };
