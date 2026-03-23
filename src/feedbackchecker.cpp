@@ -111,37 +111,25 @@ FeedbackChecker::FeedbackChecker(): Box{Gtk::Orientation::VERTICAL, 6} {
 */
 
 void FeedbackChecker::handleCanCommand(const CS2CanCommand &cmd) {
-    //if(cmd.header[1] != static_cast<std::uint8_t>(CanCommand::CMD_S88_EVENT | 0x01)) {
+    std::cout << cmd.getAsString() << std::endl;
+
+    if(cmd.header[1] != static_cast<std::uint8_t>(CanCommand::CMD_S88_EVENT | 0x01)) {
         return;
-   // }
-
-    /*
-    attrset(COLOR_PAIR(0));
-
-    if(cmd.getWordAt2() % 2) {
-        mvprintw(getRow(cmd.getWordAt2()), 0, "                        ]");
-        mvprintw(getRow(cmd.getWordAt2()), 0, "Block:  R %d/%d [%d", cmd.getWordAt0(), cmd.getWordAt2(), cmd.getWordAt6());
-    } else {
-        mvprintw(getRow(cmd.getWordAt2()), 26, "                 ]");
-        mvprintw(getRow(cmd.getWordAt2()), 26, " S %d/%d [%d", cmd.getWordAt0(), cmd.getWordAt2(), cmd.getWordAt6());
     }
+
+    std::string color;
 
     if(cmd.data[4]) {
-        attrset(COLOR_PAIR(2)); // green
+        color = "green";
     } else {
-        attrset(COLOR_PAIR(1)); // red
+        color = "red";
     }
+
+    const int idx = cmd.getWordAt2() / 2;
 
     if(cmd.getWordAt2() % 2) {
-        mvprintw(getRow(cmd.getWordAt2()), 45, "XXXXXXXXX");
-        mvprintw(getRow(cmd.getWordAt2()), 59, "XXXXXXXXX");
+        m_Label_S88_Contact[idx].set_markup(std::format("<span foreground=\"{}\">[X]</span>", color));
     } else {
-        mvprintw(getRow(cmd.getWordAt2()), 55, "[X]");
+        m_Label_S88_Circuit[idx].set_markup(std::format("<span foreground=\"{}\">XXXXXXXXX</span>", color));
     }
-
-
-    for(int i = 1; i < 35; ++i) {
-        mvprintw(i, 85, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-    }
-*/
 }
