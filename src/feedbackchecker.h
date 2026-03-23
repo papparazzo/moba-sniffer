@@ -33,6 +33,7 @@ public:
     void handleCanCommand(const CS2CanCommand &cmd);
 
 private:
+    static constexpr unsigned int MAX_CONTACTS = 35;
     CS2WriterPtr cs2writer;
 
     void on_button_circuit(std::uint16_t module, std::uint16_t idx);
