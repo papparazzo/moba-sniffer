@@ -85,9 +85,10 @@ ctrl_config{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader}, m_operation_
 
     m_HBox_Status.set_margin(6);
 
-    m_HBox_Status.append(m_Label_Connectivity_HW);
-    m_Label_Connectivity_HW.set_justify(Gtk::Justification::LEFT);
-    m_Label_Connectivity_HW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
+    m_HBox_Status.append(m_Label_Connectivity_Stop);
+    m_Label_Connectivity_Stop.set_tooltip_markup("Ausgehende Verbindung");
+    m_Label_Connectivity_Stop.set_justify(Gtk::Justification::LEFT);
+    m_Label_Connectivity_Stop.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
 
     m_HBox_Status.append(m_Label_Connectivity_SW);
     m_Label_Connectivity_SW.set_justify(Gtk::Justification::LEFT);
