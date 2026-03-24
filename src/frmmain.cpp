@@ -90,9 +90,10 @@ ctrl_config{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader}, m_operation_
     m_Label_Connectivity_Stop.set_justify(Gtk::Justification::LEFT);
     m_Label_Connectivity_Stop.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
 
-    m_HBox_Status.append(m_Label_Connectivity_SW);
-    m_Label_Connectivity_SW.set_justify(Gtk::Justification::LEFT);
-    m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
+    m_HBox_Status.append(m_Label_Connectivity_In);
+    m_Label_Connectivity_In.set_tooltip_markup("Eingehende Verbindung");
+    m_Label_Connectivity_In.set_justify(Gtk::Justification::LEFT);
+    m_Label_Connectivity_In.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
 
     m_HBox_Status.append(m_HButtonBox);
 
