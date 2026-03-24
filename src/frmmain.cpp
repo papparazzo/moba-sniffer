@@ -52,8 +52,9 @@ namespace {
     }
 }
 
-FrmMain::FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader):
-feedback_checker{cs2writer}, ctrl_lokcontrol{cs2writer}, ctrl_control{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader} {
+FrmMain::FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader, OperationModus operation_modus):
+feedback_checker{cs2writer}, ctrl_lokcontrol{cs2writer}, ctrl_control{cs2writer},
+ctrl_config{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader}, m_operation_modus{operation_modus} {
     set_icon_name(PACKAGE_NAME);
     set_title(PACKAGE_NAME);
 
