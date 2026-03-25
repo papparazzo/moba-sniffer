@@ -31,7 +31,13 @@
 class FrmMain final: public Gtk::Window {
 
 public:
-    FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader);
+    enum OperationModus {
+        PROXY,
+        SNIFFER,
+        SIMULATOR
+    };
+
+    FrmMain(const CS2WriterPtr &cs2writer, const CS2ReaderPtr &cs2reader, OperationModus operation_modus);
 
     ~FrmMain() override = default;
 
