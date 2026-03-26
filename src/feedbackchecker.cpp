@@ -36,9 +36,7 @@ FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation:
     m_ScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
     m_ScrolledWindow.set_expand();
 
-    for(int idx = 0; idx < m_Label_S88.size(); ++idx) {
-        auto & label = m_Label_S88[idx];
-        label.set_can_target(true);
+    int module = 1;
 
         auto click = Gtk::GestureClick::create();
         m_clicks.push_back(click);  // Speichere die Referenz BEVOR wir den Controller hinzufügen
