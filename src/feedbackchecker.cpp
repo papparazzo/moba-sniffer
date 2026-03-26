@@ -38,8 +38,10 @@ FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation:
 
     int module = 1;
 
-        auto click = Gtk::GestureClick::create();
-        m_clicks.push_back(click);  // Speichere die Referenz BEVOR wir den Controller hinzufügen
+    for(int idx = 0; idx < MAX_CONTACTS; ++idx) {
+        auto &labelrow = m_VBox_LabelRow[idx];
+        labelrow.set_orientation(Gtk::Orientation::HORIZONTAL);
+        labelrow.set_spacing(6);
 
         // Capture idx by value in lambda
         auto pressed_handler = [this, idx](int n_press, double x, double y) {
