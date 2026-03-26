@@ -43,10 +43,7 @@ FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation:
         labelrow.set_orientation(Gtk::Orientation::HORIZONTAL);
         labelrow.set_spacing(6);
 
-        // Capture idx by value in lambda
-        auto pressed_handler = [this, idx](int n_press, double x, double y) {
-            this->on_button_pressed(idx, n_press, x, y);
-        };
+        m_VBox_LabelBox.append(labelrow);
 
         auto released_handler = [this, idx](int n_press, double x, double y) {
             this->on_button_released(idx, n_press, x, y);
