@@ -43,6 +43,9 @@ public:
 
 private:
     void initAboutDialog();
+    void flash_label();
+    void emergency_release();
+    void emergency_stop();
 
     void on_button_about_clicked();
     void on_button_emergency_clicked() const;
