@@ -61,9 +61,6 @@ ctrl_config{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader}, m_operation_
     const sigc::slot<bool()> my_slot1 = sigc::bind(sigc::mem_fun(*this, &FrmMain::on_timeout), 1);
     sigc::connection conn1 = Glib::signal_timeout().connect(my_slot1, 25); // 25 ms
 
-    const sigc::slot<bool()> my_slot2 = sigc::bind(sigc::mem_fun(*this, &FrmMain::on_timeout_status), 1);
-    sigc::connection conn2 = Glib::signal_timeout().connect(my_slot2, 850, Glib::PRIORITY_DEFAULT_IDLE); // 850 ms
-
     m_VBox.set_margin(6);
     set_child(m_VBox);
 
