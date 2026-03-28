@@ -130,65 +130,6 @@ void FrmMain::initAboutDialog() {
     m_Button_About.grab_focus();
 }
 
-
-
-
-
-/*
-
-void FrmBase::handleHardwareState(const SystemHardwareStateChanged &data) {
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::INCIDENT) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Softwarefehler oder Nothalt");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Softwarefehler oder Nothalt");
-        systemState = SystemState::INCIDENT;
-        m_Button_Emergency.set_label("Freigabe");
-        m_Button_Emergency.set_sensitive(true);
-        setSystemState(systemState);
-        return;
-    }
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::NO_CONNECTION) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Verbindung zur Hardware unterbrochen");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Verbindung zur Hardware unterbrochen");
-        systemState = SystemState::NO_CONNECTION;
-        m_Button_Emergency.set_sensitive(false);
-        setSystemState(systemState);
-        return;
-    }
-    m_Button_Emergency.set_label("Nothalt");
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::STANDBY) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Energiesparmodus (Anlage stromlos)");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Energiesparmodus");
-        systemState = SystemState::STANDBY;
-        m_Button_Emergency.set_sensitive(false);
-    }
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::MANUAL) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> manuell");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> nicht bereit für Automatikmodus");
-        systemState = SystemState::MANUAL;
-        m_Button_Emergency.set_sensitive(true);
-    }
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::READY) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> manuell");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> bereit für Automatikmodus");
-        systemState = SystemState::READY;
-        m_Button_Emergency.set_sensitive(true);
-    }
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::AUTOMATIC) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> automatisch");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> automatisch");
-        systemState = SystemState::AUTOMATIC;
-        m_Button_Emergency.set_sensitive(true);
-    }
-    if(data.hardwareState == SystemHardwareStateChanged::HardwareState::SHUTDOWN) {
-        m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Anlage stromlos");
-        m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Anlage wird heruntergefahren...");
-        systemState = SystemState::SHUTDOWN;
-        m_Button_Emergency.set_sensitive(false);
-    }
-    setSystemState(systemState);
-}
-*/
-
 ////////////////////////////////////////////////////////////////////////////////
 // <editor-fold defaultstate="collapsed" desc="call-back-methodes">
 void FrmMain::on_about_dialog_response(int) {
