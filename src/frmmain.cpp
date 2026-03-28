@@ -104,8 +104,6 @@ ctrl_config{cs2writer}, cs2writer{cs2writer}, cs2reader{cs2reader}, m_operation_
     m_HButtonBox.append(m_Button_Emergency);
     m_Button_Emergency.signal_clicked().connect(sigc::mem_fun(*this, &FrmMain::on_button_emergency_clicked));
 
-    m_Button_Emergency.set_sensitive(false);
-
     initAboutDialog();
 }
 
