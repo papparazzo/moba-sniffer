@@ -48,7 +48,7 @@ private:
     void emergency_stop();
 
     void on_button_about_clicked();
-    void on_button_emergency_clicked() const;
+    void on_button_emergency_clicked();
     void on_about_dialog_response(int response_id);
     bool on_timeout(int timer_number);
     bool on_timeout_status(int);
@@ -59,10 +59,10 @@ private:
     Gtk::AboutDialog     m_Dialog;
 
     // status label
-    Gtk::Label       m_Label_Connectivity_HW{" \xe2\x96\x84"};
-    Gtk::Label       m_Label_Connectivity_SW{" \xe2\x96\x84"};
+    Gtk::Label           m_Label_Connectivity_In{" \xe2\x96\x84"};
+    Gtk::Label           m_Label_Connectivity_Stop{" \xe2\x96\x84"};
 
-    Gtk::Box         m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
+    Gtk::Box             m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
 
     Gtk::Box             m_HButtonBox{Gtk::Orientation::HORIZONTAL, 6};
     Gtk::Box             m_VBox{Gtk::Orientation::VERTICAL, 6};
