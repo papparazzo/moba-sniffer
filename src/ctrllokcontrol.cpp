@@ -31,8 +31,7 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     m_Button_Switch_Direction("Fahrtrichtungswechsel"),
     m_Button_Halt("Lok halt")
 {
-    set_expand(true);
-
+/*
     append(m_HBox_DropDown);
     m_HBox_DropDown.append(*Gtk::make_managed<Gtk::Label>("Lok:", 0));
     m_HBox_DropDown.append(m_DropDown_Loco);
@@ -65,7 +64,7 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     m_VBox_ExpanderIn.set_vexpand(true);
 
 
-
+/*
     // Create the List model:
     m_ListStore = Gio::ListStore<ModelColumns>::create();
     m_ListStore->append(ModelColumns::create(1, "Frontlicht", true));
@@ -106,6 +105,7 @@ CtrlLokControl::CtrlLokControl(CS2WriterPtr cs2writer):
     factory->signal_bind().connect(sigc::mem_fun(*this, &CtrlLokControl::on_bind_active));
     column = Gtk::ColumnViewColumn::create("an / aus", factory);
     m_ColumnView.append_column(column);
+    */
 }
 
 void CtrlLokControl::on_setup_label(const Glib::RefPtr<Gtk::ListItem>& list_item, Gtk::Align halign) {

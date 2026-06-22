@@ -67,7 +67,7 @@ void CtrlIncomingCommands::handleCanCommand(const CS2CanCommand &cmd) {
         return;
     }
 
-    const auto iter = m_refTreeModel_Commands->append();
+    const auto iter = m_refTreeModel_Commands->prepend(); //TODO: Oder doch lieber "append();"?
     Gtk::TreeModel::Row row = *iter;
     row[m_Columns_Commands.m_col_response  ] = cmd.header[1] & 0x01;
     row[m_Columns_Commands.m_col_command   ] = getCommandName(cmd.getCanCommand());

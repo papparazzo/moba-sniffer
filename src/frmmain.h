@@ -21,9 +21,11 @@
 
 #include <gtkmm.h>
 
+#include "ctrlconfig.h"
 #include "ctrlcontrol.h"
 #include "ctrlincomingcommands.h"
 #include "ctrllokcontrol.h"
+#include "ctrlmonitor.h"
 #include "feedbackchecker.h"
 #include "moba/cs2reader.h"
 #include "moba/cs2writer.h"
@@ -61,6 +63,7 @@ private:
     // status label
     Gtk::Label           m_Label_Connectivity_In{" \xe2\x96\x84"};
     Gtk::Label           m_Label_Connectivity_Stop{" \xe2\x96\x84"};
+    sigc::connection     m_Flash_Connectivity_In;
 
     Gtk::Box             m_HBox_Expander{Gtk::Orientation::HORIZONTAL, 6};
 
@@ -82,5 +85,8 @@ private:
 
     CS2WriterPtr cs2writer;
     CS2ReaderPtr cs2reader;
-};
 
+    std::atomic_bool m_EmergencyStop{false};
+    sigc::connection m_StatusTimer;
+    OperationModus   m_operation_modus;
+};

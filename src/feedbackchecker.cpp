@@ -45,67 +45,66 @@ FeedbackChecker::FeedbackChecker(CS2WriterPtr cs2writer) : Box{Gtk::Orientation:
 
         m_VBox_LabelBox.append(labelrow);
 
-        auto released_handler = [this, idx](int n_press, double x, double y) {
-            this->on_button_released(idx, n_press, x, y);
-        };
-        // Verbinde die Lambda-Handler
-        m_clicks.back()->signal_pressed().connect(pressed_handler);
-        m_clicks.back()->signal_released().connect(released_handler);
+        auto &labelDesc = m_Label_S88_Description[idx];
+        labelrow.append(labelDesc);
 
-        // Füge den Controller dem Label hinzu
-        label.add_controller(m_clicks.back());
+        labelDesc.set_markup(std::format("Block:  R {:02}/{:02}  S {:02}/{:02} ", module, idx * 2, module, idx * 2 + 1));
 
-        label.get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+        auto &labelCircuit = m_Label_S88_Circuit[idx];
+        labelCircuit.set_can_target(true);
 
-        std::stringstream ss;
-        ss << "Block:  R 2/1  S 1/2  <span font_weight=\"ultrabold\">"
-           << "<span foreground=\"green\">XXXXXXXXX</span> "
-           << "<span foreground=\"red\">[X]</span> "
-           << "<span foreground=\"green\">XXXXXXXXX</span></span>";
+        m_clicks.push_back(Gtk::GestureClick::create());
 
-        label.set_markup(ss.str());
-        m_VBox_LabelBox.append(label);
+        m_clicks.back()->signal_pressed().connect([this, module, idx](const int, const double, const double) {
+            this->on_button_circuit(module, idx);
+        });
+
+        labelCircuit.add_controller(m_clicks.back());
+        labelCircuit.get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+        labelCircuit.set_markup("<span foreground=\"green\">XXXXXXXXX</span>");
+        labelrow.append(labelCircuit);
+
+        auto &labelContact = m_Label_S88_Contact[idx];
+        labelContact.set_can_target(true);
+
+        m_clicks.push_back(Gtk::GestureClick::create());
+
+        m_clicks.back()->signal_pressed().connect([this, module, idx](const int, const double, const double) {
+            this->on_button_contact(module, idx, true);
+        });
+        m_clicks.back()->signal_released().connect([this, module, idx](const int, const double, const double) {
+            this->on_button_contact(module, idx, false);
+        });
+
+        labelContact.add_controller(m_clicks.back());
+        labelContact.get_style_context()->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+        labelContact.set_markup("<span foreground=\"green\">[X]</span>");
+        labelrow.append(labelContact);
     }
 }
 
-
-void FeedbackChecker::on_button_pressed(const int index, int n_press, double x, double y) {
-    std::cout << "Label " << index << " wurde gedrückt! Position: x=" << x << ", y=" << y << std::endl;
-}
-
-void FeedbackChecker::on_button_released(const int index, int n_press, double x, double y) {
-    std::cout << "Label " << index << " wurde losgelassen! Position: x=" << x << ", y=" << y << std::endl;
-}
-
-
-
-
-/*
-FeedbackChecker::FeedbackChecker(): Box{Gtk::Orientation::VERTICAL, 6} {
-
-   // m_Label_S88[0].signal_button_press_event().connect(sigc::mem_fun(*this, &FeedbackChecker::on_click));
-
-    for(auto & i : m_Label_S88) {
-        label.set_can_target(true);
-
-        // Create a click gesture controller for the label
-        auto click = Gtk::GestureClick::create();
-        click->signal_pressed().connect(
-            sigc::mem_fun(*this, &FeedbackChecker::on_label_clicked));
-        label.add_controller(click);
-        m_clicks.push_back(click);  // Store the controller
-
-
-
-        std::stringstream ss;
-        ss << "Block:  R 2/1  S 1/2  <span font_weight=\"ultrabold\"><span foreground=\"green\">XXXXXXXXX</span> <span foreground=\"red\">[X]</span> <span foreground=\"green\">XXXXXXXXX</span></span>";
-
-        //i.set_markup("<span foreground=\"red\" size=\"x-large\">XXXXX</span> is <i>cool</i>!");
-        i.set_markup(ss.str());
-        append(i);
+void FeedbackChecker::on_button_circuit(const std::uint16_t module, const std::uint16_t idx) {
+    const bool state = !m_ContactState[idx];
+    m_ContactState[idx] = state;
+    
+    if (state) {
+        m_Label_S88_Circuit[idx].set_markup("<span foreground=\"red\">XXXXXXXXX</span>");
+    } else {
+        m_Label_S88_Circuit[idx].set_markup("<span foreground=\"green\">XXXXXXXXX</span>");
     }
+    cs2writer->trySend(setFeedback(module, idx * 2, !state, state));
 }
-*/
+
+void FeedbackChecker::on_button_contact(const std::uint16_t module, const std::uint16_t idx, const bool state) {
+    if (state) {
+        m_Label_S88_Contact[idx].set_markup("<span foreground=\"red\">[X]</span>");
+    } else {
+        m_Label_S88_Contact[idx].set_markup("<span foreground=\"green\">[X]</span>");
+    }
+    cs2writer->trySend(setFeedback(module, idx * 2 + 1, !state, state));
+}
 
 void FeedbackChecker::handleCanCommand(const CS2CanCommand &cmd) {
     std::cout << cmd.getAsString() << std::endl;

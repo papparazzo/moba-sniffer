@@ -20,7 +20,6 @@
 
 #include "frmmain.h"
 
-#include <utility>
 #include "config.h"
 #include "moba/cs2utils.h"
 
@@ -135,142 +134,20 @@ void FrmMain::on_about_dialog_response(int) {
 }
 
 bool FrmMain::on_timeout(int) {
-        try {
-            if(
-                CS2CanCommand data;
-                cs2reader->read(data)
-            ) {
-                incoming_commands.addCommand(data);
-                cs2writer->send(setEmergencyStop());
-            }
-
-        } catch(const std::exception &e) {
-/*
-            cs2writer->send(setEmergencyStop());
-            endpoint->sendMsg(
-                SystemTriggerEmergencyStop{
-                    SystemTriggerEmergencyStop::EmergencyTriggerReason::SOFTWARE_ERROR,
-                    "exception <" + std::string(e.what()) + "> occurred while reading CAN bus. Emergency stop set."
-                }
-            );
-            endpoint->sendMsg(MessagingSendNotification{NotificationData{
-                NotificationLevel::ERROR,
-                NotificationType::EXCEPTION,
-                "JsonWriter Exception",
-                e.what(),
-                "JsonWriter::operator()()"
-            }});
-            monitor->printException("JsonWriter::operator()()", e.what());
-            */
-        }
-
-
-
-    /*
-    static bool connected = false;
-
     try {
-        if(!connected) {
-            msgEndpoint->connect();
-            systemState = SystemState::INCIDENT;
-            m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Keine Verbindung zur Hardware");
-            m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Keine Verbindung zur Hardware");
-            initialSend();
-            setSensitive(true);
-
-            connected = true;
-            return true;
+        if(
+            CS2CanCommand data;
+            cs2reader->read(data)
+        ) {
+            flash_label();
+            incoming_commands.handleCanCommand(data);
+            ctrl_control.handleCanCommand(data);
+            feedback_checker.handleCanCommand(data);
+            ctrl_config.handleCanCommand(data);
         }
-        registry.handleMsg(msgEndpoint->receiveMsg());
-    } catch(std::exception &e) {
-        if(connected) {
-            m_Button_Emergency.set_sensitive(false);
-            systemState = SystemState::INITIALIZING;
-            m_Label_Connectivity_HW.set_tooltip_markup("<b>Status Hardware:</b> Keine Verbindung zum Server");
-            m_Label_Connectivity_SW.set_tooltip_markup("<b>Status Software:</b> Keine Verbindung zum Server");
-
-          //  m_InfoBar.set_message_type(Gtk::MessageType::ERROR);
-            m_Label_InfoBarMessage.set_markup(getDisplayMessage("msg-handler exception", e.what()));
-            m_InfoBar.set_visible(true);
-            setSensitive(false);
-            connected = false;
-        }
+    } catch(const std::exception &e) {
+        ctrl_monitor.addMessage("FrmMain::on_timeout(int)", e.what());
     }
-    */
-    return true;
-}
-
-bool FrmMain::on_timeout_status(int) {
-/*
-    static bool on = false;
-
-    on = !on;
-    switch(systemState) {
-        case SystemState::INITIALIZING:
-            m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            m_Label_Connectivity_HW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            break;
-
-        case SystemState::NO_CONNECTION:
-            if(on) {
-                m_Label_Connectivity_HW.set_markup("<span color=\"red\"> \xe2\x96\x84</span>");
-            } else {
-                m_Label_Connectivity_HW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            }
-            m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            break;
-
-        case SystemState::INCIDENT:
-            if(on) {
-                m_Label_Connectivity_SW.set_markup("<span color=\"red\"> \xe2\x96\x84</span>");
-            } else {
-                m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            }
-            m_Label_Connectivity_HW.set_markup("<span color=\"gold\"> \xe2\x96\x84</span>");
-            break;
-
-        case SystemState::STANDBY:
-            m_Label_Connectivity_SW.set_markup("<span color=\"gold\"> \xe2\x96\x84</span>");
-            m_Label_Connectivity_HW.set_markup("<span color=\"gold\"> \xe2\x96\x84</span>");
-            break;
-
-        case SystemState::MANUAL:
-            m_Label_Connectivity_HW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-            m_Label_Connectivity_SW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-            break;
-
-        case SystemState::READY:
-            m_Label_Connectivity_HW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-            if(on) {
-                m_Label_Connectivity_SW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-            } else {
-                m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            }
-            break;
-
-        case SystemState::AUTOMATIC:
-            if(on) {
-                m_Label_Connectivity_SW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-                m_Label_Connectivity_HW.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
-            } else {
-                m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-                m_Label_Connectivity_HW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            }
-            break;
-
-        case SystemState::SHUTDOWN:
-            m_Label_Connectivity_HW.set_markup("<span color=\"gold\"> \xe2\x96\x84</span>");
-            if(on) {
-                m_Label_Connectivity_SW.set_markup("<span color=\"gold\"> \xe2\x96\x84</span>");
-            } else {
-                m_Label_Connectivity_SW.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
-            }
-            break;
-
-        default:
-            break;
-    }
-    */
     return true;
 }
 
@@ -279,12 +156,62 @@ void FrmMain::on_button_about_clicked() {
     m_Dialog.present();
 }
 
-void FrmMain::on_button_emergency_clicked() const {
+void FrmMain::on_button_emergency_clicked() {
     if(m_Button_Emergency.get_label() == "Nothalt") {
-    //    msgEndpoint->sendMsg(SystemTriggerEmergencyStop{});
+        cs2writer->trySend(setEmergencyStop());
+        emergency_stop();
     } else {
-    //    msgEndpoint->sendMsg(SystemReleaseEmergencyStop{});
+        cs2writer->trySend(setEmergencyStopClearing());
+        emergency_release();
     }
+}
+
+void FrmMain::flash_label() {
+    Gtk::Label &label = m_Label_Connectivity_In;
+    if(m_Flash_Connectivity_In.connected()) {
+        m_Flash_Connectivity_In.disconnect();
+    }
+    label.set_markup("<span color=\"red\"> \xe2\x96\x84</span>");
+    Glib::signal_timeout().connect_once(
+        [&label]() { label.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>"); },
+        50
+    );
+}
+
+bool FrmMain::on_timeout_status(int) {
+    static bool on = false;
+
+    on = !on;
+
+    if(on) {
+        m_Label_Connectivity_Stop.set_markup("<span color=\"red\"> \xe2\x96\x84</span>");
+    } else {
+        m_Label_Connectivity_Stop.set_markup("<span color=\"gray\"> \xe2\x96\x84</span>");
+    }
+
+    return true;
+}
+
+void FrmMain::emergency_stop() {
+    if(m_EmergencyStop) {
+        return;
+    }
+    on_timeout_status(0);
+
+    const sigc::slot<bool()> slot = sigc::bind(sigc::mem_fun(*this, &FrmMain::on_timeout_status), 1);
+    m_StatusTimer = Glib::signal_timeout().connect(slot, 850, Glib::PRIORITY_DEFAULT_IDLE);
+    m_EmergencyStop = true;
+    m_Button_Emergency.set_label("Freigabe");
+}
+
+void FrmMain::emergency_release() {
+    m_Label_Connectivity_Stop.set_markup("<span color=\"green\"> \xe2\x96\x84</span>");
+
+    if(m_StatusTimer.connected()) {
+        m_StatusTimer.disconnect();
+    }
+    m_EmergencyStop = false;
+    m_Button_Emergency.set_label("Nothalt");
 }
 
 
